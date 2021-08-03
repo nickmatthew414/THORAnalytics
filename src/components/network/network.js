@@ -1,9 +1,8 @@
 import React from 'react';
-import { torToRune, toPercent, roundToHundreths } from '../../library/library';
+import { torToRune, toPercent, roundToHundreths, toMillions } from '../../library/library';
 import Header from '../header';
 import Overview from '../overview';
-import NodeDistributionChart from './nodeDistribution';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import ChartCard from '../chartCard'
 
 const fetch = require("node-fetch");
@@ -13,11 +12,10 @@ export default class Network extends React.Component {
 
     constructor(props) {
         super(props);
-        // hard coded for now
         this.state = {
-            data: {"Active Node Count": "38", "Standby Node Count": "10", "Time To Next Churn": "1D 11H 37M", 
-            "Bond APY": "13.3%", "Total Reserve": "37.2M RUNE"},
-            size: 2
+            size: 2,
+            data: {"Active Node Count" : '-', "Standby Node Count": "-",
+            "Time To Next Churn": "-", "Bond APY": "-", "Total Reserve": "-" }
         };
         this.getNetworkData();
     }
@@ -25,6 +23,7 @@ export default class Network extends React.Component {
     componentDidMount() { 
         this.mounted = true; 
       }
+
 
     getNetworkData = () => {
         fetch('https://midgard.thorchain.info/v2/network')
@@ -35,24 +34,27 @@ export default class Network extends React.Component {
             let standbyNodeCount = data.standbyNodeCount;
             let totalPooledRune = roundToHundreths(torToRune(data.totalPooledRune));
             let nextChurnHeight = data.nextChurnHeight;
-            let bondingAPY = roundToHundreths(toPercent(data.bondingAPY));
+            let bondingAPY = roundToHundreths(toPercent(data.bondingAPY)) + "%";
             let liquidityAPY = roundToHundreths(toPercent(data.liquidityAPY));
-            let totalReserve = roundToHundreths(torToRune(data.totalReserve));
-            let activeBonds = data.activeBonds;
+            let totalReserve = roundToHundreths(toMillions(torToRune(data.totalReserve))) + "M RUNE";
+            let activeBonds = data.activeBonds.reverse(); // get from largest to smallest
+            let standbyBonds = data.standbyBonds.reverse(); // get from largest to smallest
             let poolActivationCountDown = data.poolActivationCountDown;
             let poolShareFactor = data.poolShareFactor;
 
             if (this.mounted) {
-                this.setState({activeNodeCount});
-                this.setState({totalActiveBond});
-                this.setState({standbyNodeCount});
-                this.setState({totalPooledRune});
-                this.setState({nextChurnHeight});
-                this.setState({bondingAPY});
-                this.setState({liquidityAPY});
-                this.setState({totalReserve});
-                this.setState({poolActivationCountDown});
-                this.setState({poolShareFactor});
+                const data = {"Active Node Count" : activeNodeCount, "Standby Node Count": standbyNodeCount,
+                                "Time To Next Churn": nextChurnHeight, "Bond APY": bondingAPY, "Total Reserve": totalReserve };
+
+                for (let i=0; i<activeBonds.length; i++) {
+                    activeBonds[i] = torToRune(activeBonds[i])
+                }
+                for (let i=0; i<standbyBonds.length; i++) {
+                    standbyBonds[i] = torToRune(standbyBonds[i])
+                }
+                this.setState({data})
+                this.setState({activeBonds})
+                this.setState({standbyBonds})
 
 
             }
@@ -67,20 +69,10 @@ export default class Network extends React.Component {
             <div>
                 <Header page="Network"/>
                 <Overview data={this.state.data} size={this.state.size} />
-                <Container maxWidth="sm">
-                    <ChartCard />
-                    {/* <NodeDistributionChart /> */}
-                </Container>
-                <p>{`Active Node Count: ${this.state.activeNodeCount}`}</p>
-                <p>{`Total Active Bond: ${this.state.totalActiveBond}`}</p>
-                <p>{`Standby Node Count: ${this.state.standbyNodeCount}`}</p>
-                <p>{`Total Rune Pooled: ${this.state.totalPooledRune}`}</p>
-                <p>{`Next Churn Height: ${this.state.nextChurnHeight}`}</p>
-                <p>{`Bonding APY: ${this.state.bondingAPY}`}</p>
-                <p>{`Liquidity APY: ${this.state.liquidityAPY}`}</p>
-                <p>{`Total Reserve: ${this.state.totalReserve}`}</p>
-                <p>{`${this.state.poolActivationCountDown}`}</p>
-                <p>{`${this.state.poolShareFactor}`}</p>
+                <Box display="flex" justifyContent="space-between" style={{marginTop: "2%", gap: "2%"}}>
+                    <ChartCard data={this.state.activeBonds} title={"Active Node Bonds"}/>
+                    <ChartCard data={this.state.standbyBonds} title={"Standby Node Bonds"} />
+                </Box>
             </div>
         )
     }

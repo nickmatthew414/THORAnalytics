@@ -1,15 +1,27 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { useState, setState } from 'react';
+import { Bar, Chart } from 'react-chartjs-2';
 
 
 export default function NodeDistributionChart(props) {
 
+    Chart.defaults.color = "#FFFFFF";  // change text color to white
+
+
+    let labels = [];
+    if (props.data !== undefined) {
+      for (let i=0; i<props.data.length; i++) {
+        labels.push(`Node ${i}`)
+      }
+
+    }
+
     const data = {
-        labels: ['Node 1', 'Node 2', 'Node 3', 'Node 4', 'Node 5', 'Node 6'],
+        labels: labels,
         datasets: [
           {
-            label: 'Active Node Bond',
-            data: [542104, 603913, 340591, 850397, 697693, 405948],
+            label: props.title,
+            data: props.data,
             backgroundColor: [
               '#17A07B',
             ],
@@ -17,6 +29,7 @@ export default function NodeDistributionChart(props) {
               '#0F1821',
             ],
             borderWidth: 1,
+            scaleFontColor: ["#FFFFFF"],
           },
         ],
       };
@@ -30,7 +43,17 @@ export default function NodeDistributionChart(props) {
               },
             },
           ],
+          x: {
+            ticks: {
+              display: false,
+            },
+          }
         },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
       };
 
     return <Bar data={data} options={options}/>

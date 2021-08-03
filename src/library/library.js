@@ -11,3 +11,7 @@ export function toPercent(value) {
 export function roundToHundreths(value) {
     return value.toFixed(2);
 }
+
+export function toMillions(value) {
+    return value / 1000000
+}
