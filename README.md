@@ -1,17 +1,17 @@
 # THORAnalytics
 This repo contains a data dashboard for THORChain. 
 
-##### Development Status
+#### Development Status
 
 Very Early. Under Active Development.
 
-##### Motivation: 
+#### Motivation: 
 
 1) To learn more about front-end development. 
-2) To benefit the THORChain community
+2) To benefit the THORChain community.
 
 
-# Getting Started with Create React App
+## Getting Started with Create React App
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
