@@ -31,7 +31,7 @@ export default class Header extends React.Component {
                 )
             }
         }
-        returnPages.push(<Button variant="text" disabled={true}><p style={{color: "grey"}}>THORNames</p></Button>)
+        returnPages.push(<Button variant="text" disabled={true} key={"THORNames"}><p style={{color: "grey"}}>THORNames</p></Button>)
         return returnPages
     }
 
