@@ -6,6 +6,7 @@ import ChartCard from '../chartCard'
 import Grid from '@material-ui/core/Grid';
 import BondMetricsCard from './bondMetricsCard';
 import IncentivePendulum from './incentivePendulum';
+import ChainStatus from './chainsStatus';
 
 const fetch = require("node-fetch");
 
@@ -138,6 +139,7 @@ export default class Network extends React.Component {
                     <Grid item xs={5} >
                         <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}
                             optimalLine={this.state.optimalLine} />
+                        <ChainStatus title={"Chains Status"} />
                     </Grid>
                 </Grid>
 
