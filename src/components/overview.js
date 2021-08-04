@@ -26,11 +26,9 @@ export default class Overview extends React.Component {
     render() {
         return (
 
-            <Grid container direction="row" justifyContent="space-around" key={999} style={{marginTop: "2%"}}>
-                    <Grid item xs={1} key={70} />
+            <Grid container spacing={2} direction="row" justifyContent="center" key={999} style={{marginTop: "2%"}}>
                     {this.returnCard()}
-                    <Grid item xs={1} key={77} />
-                </Grid>
+            </Grid>
         )
     }
 }

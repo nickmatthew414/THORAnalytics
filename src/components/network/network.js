@@ -4,6 +4,7 @@ import Header from '../header';
 import Overview from '../overview';
 import Box from '@material-ui/core/Box';
 import ChartCard from '../chartCard'
+import Grid from '@material-ui/core/Grid';
 
 const fetch = require("node-fetch");
 
@@ -69,10 +70,14 @@ export default class Network extends React.Component {
             <div>
                 <Header page="Network"/>
                 <Overview data={this.state.data} size={this.state.size} />
-                <Box display="flex" justifyContent="space-between" style={{marginTop: "2%", gap: "2%"}}>
-                    <ChartCard data={this.state.activeBonds} title={"Active Node Bonds"}/>
-                    <ChartCard data={this.state.standbyBonds} title={"Standby Node Bonds"} />
-                </Box>
+                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={5}>
+                    <ChartCard data={this.state.activeBonds} title={"Active Node Bonds"} />
+                    </Grid>
+                    <Grid item xs={5}>
+                    <ChartCard data={this.state.standbyBonds} title={"Standby Node Bonds"}/>
+                    </Grid>
+                </Grid>
             </div>
         )
     }
