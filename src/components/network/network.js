@@ -2,10 +2,10 @@ import React from 'react';
 import { torToRune, toPercent, roundToHundreths, toMillions } from '../../library/library';
 import Header from '../header';
 import Overview from '../overview';
-import Box from '@material-ui/core/Box';
 import ChartCard from '../chartCard'
 import Grid from '@material-ui/core/Grid';
 import BondMetricsCard from './bondMetricsCard';
+import IncentivePendulum from './incentivePendulum';
 
 const fetch = require("node-fetch");
 
@@ -20,13 +20,32 @@ export default class Network extends React.Component {
             "Time To Next Churn": "-", "Bond APY": "-", "Total Reserve": "-" },
             activeBondMetrics: ["-", "-", "-", "-"],
             standbyBondMetrics: ["-", "-", "-", "-"],
+            bondHistoryInterval: "week",
+            bondHistoryCount: "15",
+            incentivePendulumData: [],
         };
         this.getNetworkData();
+        this.getNodeBondHistory();
     }
 
     componentDidMount() { 
         this.mounted = true; 
       }
+
+    getNodeBondHistory = () => {
+        fetch(`https://midgard.thorchain.info/v2/history/tvl?interval=${this.state.bondHistoryInterval}&count=${this.state.bondHistoryCount}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.intervals)
+            let valueBondedHistory = Math.round(torToRune(data.intervals.totalValueBonded)).toLocaleString();
+            console.log(valueBondedHistory)
+            
+            if (this.mounted) {
+                this.setState({valueBondedHistory})
+            }
+
+        });
+    }
 
 
     getNetworkData = () => {
@@ -39,17 +58,15 @@ export default class Network extends React.Component {
             let totalPooledRune = roundToHundreths(torToRune(data.totalPooledRune));
             let nextChurnHeight = data.nextChurnHeight;
             let bondingAPY = roundToHundreths(toPercent(data.bondingAPY)) + "%";
-            let liquidityAPY = roundToHundreths(toPercent(data.liquidityAPY));
             let totalReserve = roundToHundreths(toMillions(torToRune(data.totalReserve))) + "M RUNE";
             let activeBonds = data.activeBonds.reverse(); // get from largest to smallest
             let standbyBonds = data.standbyBonds.reverse(); // get from largest to smallest
-            let poolActivationCountDown = data.poolActivationCountDown;
-            let poolShareFactor = data.poolShareFactor;
             let bondMetrics = data.bondMetrics;
             let activeBondMetrics = [bondMetrics.maximumActiveBond,bondMetrics.minimumActiveBond, bondMetrics.averageActiveBond, 
                 bondMetrics.medianActiveBond];
             let standbyBondMetrics = [bondMetrics.maximumStandbyBond, bondMetrics.minimumStandbyBond, bondMetrics.averageStandbyBond, 
-                bondMetrics.medianStandbyBond, ];
+                bondMetrics.medianStandbyBond];
+
 
             if (this.mounted) {
                 const data = {"Active Node Count" : activeNodeCount, "Standby Node Count": standbyNodeCount,
@@ -67,12 +84,18 @@ export default class Network extends React.Component {
                     activeBondMetrics[i] = Math.round(torToRune(activeBondMetrics[i])).toLocaleString();
                     standbyBondMetrics[i] = Math.round(torToRune(standbyBondMetrics[i])).toLocaleString();
                 }
+                let bondPercentage = totalActiveBond / (Number(totalActiveBond) + Number(totalPooledRune));
+                let LPPercentage = totalPooledRune / (Number(totalActiveBond) + Number(totalPooledRune));
+                let incentivePendulumData = [bondPercentage, LPPercentage]
 
                 this.setState({data});
                 this.setState({activeBonds});
                 this.setState({standbyBonds});
                 this.setState({activeBondMetrics});
                 this.setState({standbyBondMetrics});
+                this.setState({totalActiveBond});
+                this.setState({totalPooledRune});
+                this.setState({incentivePendulumData})
 
             }
         });
@@ -98,7 +121,7 @@ export default class Network extends React.Component {
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid container item xs={5} spacing={1} justifyContent="space-between">
+                    <Grid container item xs={5} justifyContent="space-between">
                     <Grid item xs={6}>
                         <BondMetricsCard metrics={this.state.activeBondMetrics} nodeType="Active" title="Active Bond Stats" />
                     </Grid>
@@ -106,8 +129,11 @@ export default class Network extends React.Component {
                         <BondMetricsCard metrics={this.state.standbyBondMetrics} nodeType="Standby" title="Standby Bond Stats" />
                     </Grid> 
                     </Grid>
-                    <Grid item xs={5} />
+                    <Grid item xs={5}>
+                        <IncentivePendulum data={this.state.incentivePendulumData}/>
+                    </Grid>
                 </Grid>
+
             </div>
         )
     }
