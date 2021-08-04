@@ -23,6 +23,7 @@ export default class Network extends React.Component {
             bondHistoryInterval: "week",
             bondHistoryCount: "15",
             incentivePendulumData: [],
+            incentivePendulumImbalance: "-"
         };
         this.getNetworkData();
         this.getNodeBondHistory();
@@ -86,7 +87,8 @@ export default class Network extends React.Component {
                 }
                 let bondPercentage = totalActiveBond / (Number(totalActiveBond) + Number(totalPooledRune));
                 let LPPercentage = totalPooledRune / (Number(totalActiveBond) + Number(totalPooledRune));
-                let incentivePendulumData = [bondPercentage, LPPercentage]
+                let incentivePendulumData = [bondPercentage, LPPercentage];
+                let incentivePendulumImbalance = Math.abs(((bondPercentage  - 2/3) * 100).toFixed(2));
 
                 this.setState({data});
                 this.setState({activeBonds});
@@ -95,7 +97,8 @@ export default class Network extends React.Component {
                 this.setState({standbyBondMetrics});
                 this.setState({totalActiveBond});
                 this.setState({totalPooledRune});
-                this.setState({incentivePendulumData})
+                this.setState({incentivePendulumData});
+                this.setState({incentivePendulumImbalance});
 
             }
         });
@@ -130,7 +133,7 @@ export default class Network extends React.Component {
                     </Grid> 
                     </Grid>
                     <Grid item xs={5}>
-                        <IncentivePendulum data={this.state.incentivePendulumData}/>
+                        <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}/>
                     </Grid>
                 </Grid>
 
