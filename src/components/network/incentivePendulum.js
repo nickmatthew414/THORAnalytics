@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 import { Bar, Chart } from 'react-chartjs-2';
+import annotationPlugin from 'chartjs-plugin-annotation';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LaunchIcon from '@material-ui/icons/Launch';
@@ -9,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 export default function IncentivePendulum(props) {
 
     Chart.defaults.color = "#FFFFFF";  // change text color to white
+    Chart.register(annotationPlugin); // for chartjs-plugin
 
 
     const data = {
@@ -90,6 +92,28 @@ export default function IncentivePendulum(props) {
                 }
             }
         },
+        autocolors: false,
+        annotation: {
+            annotations: {
+                line1: {
+                type: 'line',
+                xMin: props.optimalLine,
+                xMax: props.optimalLine,
+                yMin: 0,
+                borderColor: '#FFFFFF',
+                borderWidth: 2,
+                label: {
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    content: "Optimal",
+                    enabled: true,
+                    color: "#FFFFFF",
+                    position: "start",
+                    yAdjust: 22,
+                    xAdjust: -30,
+                },
+                },
+            }
+        },
         }
     };
 
@@ -101,18 +125,18 @@ export default function IncentivePendulum(props) {
                     <LaunchIcon style={{color: "white"}}/>
                 </IconButton> 
             </div>
-            <CardContent style={{color: "white"}}>
-                <Box display="flex" flexDirection="column" justifyContent="center">
-                    <div style={{display: "flex", justifyContent: "space-between"}}>
-                        <Typography variant="body2">Node Operators</Typography>
-                        <Typography variant="body2">Liquidity Providers</Typography>
-                    </div>
-                    <div >
-                        <Bar data={data} options={options}/>
-                    </div>
-                    <Typography variant="body2">{`Imbalance: ${props.imbalance}%`}</Typography>
+            <Box display="flex" flexDirection="column" justifyContent="center" style={{marginLeft: "2%", marginRight: "2%", marginBottom: "1%"}}>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <Typography variant="body2" style={{fontSize: "12px"}}>Node Operators</Typography>
+                    <Typography variant="body2" style={{fontSize: "12px"}}>Liquidity Providers</Typography>
+                </div>
+                <Box display="flex" justifyContent="center" style={{height: "50px"}}>
+                    <Bar data={data} options={options}/>
                 </Box>
-            </CardContent>
+                <Box display="flex" justifyContent="center">
+                    <Typography variant="body2" style={{fontSize: "12px", marginTop: "2%"}}>{`Imbalance: ${props.imbalance}%`}</Typography>
+                </Box>
+            </Box>
         </Card>
     )
     

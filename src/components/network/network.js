@@ -23,7 +23,8 @@ export default class Network extends React.Component {
             bondHistoryInterval: "week",
             bondHistoryCount: "15",
             incentivePendulumData: [],
-            incentivePendulumImbalance: "-"
+            incentivePendulumImbalance: "-",
+            optimalLine: 0,
         };
         this.getNetworkData();
         this.getNodeBondHistory();
@@ -89,6 +90,7 @@ export default class Network extends React.Component {
                 let LPPercentage = totalPooledRune / (Number(totalActiveBond) + Number(totalPooledRune));
                 let incentivePendulumData = [bondPercentage, LPPercentage];
                 let incentivePendulumImbalance = Math.abs(((bondPercentage  - 2/3) * 100).toFixed(2));
+                let optimalLine = incentivePendulumData[1] - 1/3;
 
                 this.setState({data});
                 this.setState({activeBonds});
@@ -99,6 +101,7 @@ export default class Network extends React.Component {
                 this.setState({totalPooledRune});
                 this.setState({incentivePendulumData});
                 this.setState({incentivePendulumImbalance});
+                this.setState({optimalLine})
 
             }
         });
@@ -128,12 +131,13 @@ export default class Network extends React.Component {
                     <Grid item xs={6}>
                         <BondMetricsCard metrics={this.state.activeBondMetrics} nodeType="Active" title="Active Bond Stats" />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} >
                         <BondMetricsCard metrics={this.state.standbyBondMetrics} nodeType="Standby" title="Standby Bond Stats" />
                     </Grid> 
                     </Grid>
-                    <Grid item xs={5}>
-                        <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}/>
+                    <Grid item xs={5} >
+                        <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}
+                            optimalLine={this.state.optimalLine} />
                     </Grid>
                 </Grid>
 

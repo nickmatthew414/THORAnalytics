@@ -24,7 +24,7 @@ export default class BondMetricsCard extends React.Component {
     render() {
         return (
             <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column", alignItems: "left"}}>
-                <CardHeader title={this.props.title} style={{color: "white", }} 
+                <CardHeader title={this.props.title} style={{color: "white"}} 
                         titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
                     {this.cardContentMaker()}
             </Card>
