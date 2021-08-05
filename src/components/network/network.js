@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import BondMetricsCard from './bondMetricsCard';
 import IncentivePendulum from './incentivePendulum';
 import ChainStatus from './chainsStatus';
+import NodeTable from './nodeTable';
+import Card from '@material-ui/core/Card';
 
 const fetch = require("node-fetch");
 
@@ -30,17 +32,37 @@ export default class Network extends React.Component {
         this.getNetworkData();
         this.getNodeBondHistory();
         this.getInboundAddresses();
+        this.getNodes();
     }
 
     componentDidMount() { 
         this.mounted = true; 
       }
 
+    getNodes = () => {
+        fetch("https://midgard.thorchain.info/v2/thorchain/nodes")
+        .then(response => response.json())
+        .then(data => {
+            if (this.mounted) {
+                let activeNodesData = [];
+                let standbyNodesData = [];
+                for (let i=0; i<data.length; i++) {
+                    if (data[i].status === "Active") {
+                        activeNodesData.push(data[i]);
+                    } else if (data[i].status === "Standby" ) {
+                        standbyNodesData.push(data[i]);
+                    }
+                }
+                this.setState({activeNodesData: activeNodesData});
+                this.setState({standbyNodesData: standbyNodesData});
+            }
+        })
+    }
+
     getNodeBondHistory = () => {
         fetch(`https://midgard.thorchain.info/v2/history/tvl?interval=${this.state.bondHistoryInterval}&count=${this.state.bondHistoryCount}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             let valueBondedHistory = Math.round(torToRune(data.intervals.totalValueBonded)).toLocaleString();
             
             if (this.mounted) {
@@ -56,7 +78,6 @@ export default class Network extends React.Component {
         .then(data => {
             if (this.mounted) {
                 this.setState({chainsStatus: data})
-                console.log(data)
             }
         })
     }
@@ -150,6 +171,15 @@ export default class Network extends React.Component {
                         <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}
                             optimalLine={this.state.optimalLine} />
                         <ChainStatus chainsStatus={this.state.chainsStatus} />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={5}>
+                        <NodeTable title="Active Nodes" nodeData={this.state.activeNodesData} />
+                    </Grid>
+                    <Grid item xs={5}>
+                        <NodeTable title="Standby Nodes" nodeData={this.state.standbyNodesData} />
                     </Grid>
                 </Grid>
 

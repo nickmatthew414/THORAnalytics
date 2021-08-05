@@ -15,3 +15,7 @@ export function roundToHundreths(value) {
 export function toMillions(value) {
     return value / 1000000
 }
+
+export function shortenedAddress(address) {
+    return address.slice(0, 9) + "..." + address.slice(-5, -1); // first and last 4 characters of address
+}
