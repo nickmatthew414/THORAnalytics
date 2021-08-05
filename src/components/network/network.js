@@ -8,7 +8,7 @@ import BondMetricsCard from './bondMetricsCard';
 import IncentivePendulum from './incentivePendulum';
 import ChainStatus from './chainsStatus';
 import NodeTable from './nodeTable';
-import Card from '@material-ui/core/Card';
+import BondHistory from './bondHistory';
 
 const fetch = require("node-fetch");
 
@@ -60,9 +60,10 @@ export default class Network extends React.Component {
     }
 
     getNodeBondHistory = () => {
-        fetch(`https://midgard.thorchain.info/v2/history/tvl?interval=${this.state.bondHistoryInterval}&count=${this.state.bondHistoryCount}`)
+        fetch(`https://midgard.thorchain.info/totalValueBonded/GetTVLHistory/v2/history/tvl`)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             let valueBondedHistory = Math.round(torToRune(data.intervals.totalValueBonded)).toLocaleString();
             
             if (this.mounted) {
@@ -166,6 +167,9 @@ export default class Network extends React.Component {
                     <Grid item xs={6} >
                         <BondMetricsCard metrics={this.state.standbyBondMetrics} nodeType="Standby" title="Standby Bond Stats" />
                     </Grid> 
+                    
+                    <BondHistory />
+
                     </Grid>
                     <Grid item xs={5} >
                         <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}

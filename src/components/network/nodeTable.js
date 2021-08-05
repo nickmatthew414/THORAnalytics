@@ -67,9 +67,8 @@ export default function NodeTable(props) {
 
     return (
         <Card variant="outlined" style={{ borderColor: "#1BE6C8", backgroundColor: "#17A07B", marginTop: "2%"}}>
-             <CardHeader title={props.title} style={{color: "white", textAlign: "center"}} 
+             <CardHeader title={props.title} style={{color: "white" , textAlign: "center"}} 
                         titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
-            {/* <Divider style={{width: "100%", height: "1px", backgroundColor: "white", borderWidth: "10px"}}/> */}
             <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
