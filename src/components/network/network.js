@@ -40,6 +40,7 @@ export default class Network extends React.Component {
         fetch(`https://midgard.thorchain.info/v2/history/tvl?interval=${this.state.bondHistoryInterval}&count=${this.state.bondHistoryCount}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             let valueBondedHistory = Math.round(torToRune(data.intervals.totalValueBonded)).toLocaleString();
             
             if (this.mounted) {

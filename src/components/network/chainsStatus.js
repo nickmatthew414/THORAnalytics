@@ -55,10 +55,10 @@ export default function ChainStatus(props)  {
         let chains = {"BTC": "Bitcoin", "BCH": "Bitcoin Cash", "BNB": "Binance", "LTC": "Litecoin", "ETH": "Ethereum"};
         let chainName = chains[chain.chain];
         return (
-            <StyledTableRow key={chain}>
-              <StyledTableCell component="th" scope="row">{chainName}</StyledTableCell>
-              <StyledTableCell align="left">{getHaltedText(chain.halted)}</StyledTableCell>
-              <StyledTableCell align="left">{chain.gas_rate}</StyledTableCell>
+            <StyledTableRow key={chainName}>
+              <StyledTableCell component="th" scope="row" key={1}>{chainName}</StyledTableCell>
+              <StyledTableCell align="left" key={2}>{getHaltedText(chain.halted)}</StyledTableCell>
+              <StyledTableCell align="left" key={3}>{chain.gas_rate}</StyledTableCell>
             </StyledTableRow>
         )
     }
@@ -69,9 +69,9 @@ export default function ChainStatus(props)  {
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Chain</StyledTableCell>
-                            <StyledTableCell align="left">Status</StyledTableCell>
-                            <StyledTableCell align="left">Gas Rate</StyledTableCell>
+                            <StyledTableCell key={1}>Chain</StyledTableCell>
+                            <StyledTableCell align="left" key={2}>Status</StyledTableCell>
+                            <StyledTableCell align="left" key={3}>Gas Rate</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
