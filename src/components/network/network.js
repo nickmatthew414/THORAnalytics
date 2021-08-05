@@ -29,6 +29,7 @@ export default class Network extends React.Component {
         };
         this.getNetworkData();
         this.getNodeBondHistory();
+        this.getInboundAddresses();
     }
 
     componentDidMount() { 
@@ -39,9 +40,7 @@ export default class Network extends React.Component {
         fetch(`https://midgard.thorchain.info/v2/history/tvl?interval=${this.state.bondHistoryInterval}&count=${this.state.bondHistoryCount}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data.intervals)
             let valueBondedHistory = Math.round(torToRune(data.intervals.totalValueBonded)).toLocaleString();
-            console.log(valueBondedHistory)
             
             if (this.mounted) {
                 this.setState({valueBondedHistory})
@@ -50,6 +49,16 @@ export default class Network extends React.Component {
         });
     }
 
+    getInboundAddresses = () => {
+        fetch("https://midgard.thorchain.info/v2/thorchain/inbound_addresses")
+        .then(response => response.json())
+        .then(data => {
+            if (this.mounted) {
+                this.setState({chainsStatus: data})
+                console.log(data)
+            }
+        })
+    }
 
     getNetworkData = () => {
         fetch('https://midgard.thorchain.info/v2/network')
@@ -139,7 +148,7 @@ export default class Network extends React.Component {
                     <Grid item xs={5} >
                         <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}
                             optimalLine={this.state.optimalLine} />
-                        <ChainStatus title={"Chains Status"} />
+                        <ChainStatus chainsStatus={this.state.chainsStatus} />
                     </Grid>
                 </Grid>
 
