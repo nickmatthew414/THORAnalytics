@@ -1,15 +1,28 @@
 # THORAnalytics
 This repo contains a data dashboard for THORChain. 
 
-#### Development Status
-
-Very Early. Under Active Development.
-
 #### Motivation: 
 
 1) To learn more about front-end development. 
 2) To benefit the THORChain community.
 
+#### Development Status:
+
+Early. Under Active Development.
+
+### Network Page:
+1) Move API calls into a single process so the page only renders once
+2) Fix a couple scrappy solutions
+3) Move all inline styles to scss
+4) Change color scheme, especially on the tables
+5) Improve component positioning across window sizes
+6) Connect total value bonded feed to graph (waiting on updates to midgard)
+
+### Liquidity Pools Page:
+To Do
+
+### RUNE Page:
+To Do
 
 ## Getting Started with Create React App
 
