@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from '../scss/header.scss';
 import thorchainlogo from '../assets/thorchainlogo.jpeg';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';

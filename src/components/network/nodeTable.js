@@ -1,7 +1,5 @@
 import React from 'react';
 import { Card, CardHeader } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -9,16 +7,13 @@ import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import TableCell from '@material-ui/core/TableCell';
-import Divider from '@material-ui/core/Divider';
 import { withStyles, makeStyles } from '@material-ui/core/Styles';
 import { shortenedAddress, torToRune } from '../../library/library';
-import annotationPlugin from 'chartjs-plugin-annotation';
 
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: '#17A07B',
-    // backgroundColor: "#0f674d",
       color: theme.palette.common.white,
     },
     body: {
@@ -30,11 +25,9 @@ const StyledTableCell = withStyles((theme) => ({
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
-        // backgroundColor: theme.palette.action.hover,
         backgroundColor: "#3B3F43",
       },
       '&:nth-of-type(even)': {
-        //   backgroundColor: "#2c2c30",
         backgroundColor: "#37373c"
       },
     },

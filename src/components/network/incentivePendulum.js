@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardContent } from '@material-ui/core';
+import { Card } from '@material-ui/core';
 import { Bar, Chart } from 'react-chartjs-2';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import Box from '@material-ui/core/Box';

@@ -6,10 +6,6 @@ import Grid from '@material-ui/core/Grid';
 
 export default class BondMetricsCard extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     cardContentMaker = (metricsValues, node_type) => {
         let content = [];
         let metrics = ["Maximum", "Minimum", "Average", "Median", ];

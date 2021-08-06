@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardHeader } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -13,7 +12,6 @@ import { withStyles, makeStyles } from '@material-ui/core/Styles';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    // backgroundColor: theme.palette.common.black,
     backgroundColor: '#17A07B',
     color: theme.palette.common.white,
   },
@@ -44,8 +42,6 @@ export default function ChainStatus(props)  {
     const getTableRow = (chain) => {
 
         const getHaltedText = (bool) => {
-            let boolToText = {"true": "Halted", "false": "Active"}
-            let text = boolToText[String(bool)];
             if (bool) {
                 return <Typography variant="subtitle2" style={{color: "red"}} key={2}>{"Halted"}</Typography>
             }

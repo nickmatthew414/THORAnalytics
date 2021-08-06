@@ -5,10 +5,6 @@ import Grid from '@material-ui/core/Grid';
 
 export default class Overview extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     size = 2;
 
     returnCard = () => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, setState } from 'react';
 import { Bar, Chart } from 'react-chartjs-2';
 
 

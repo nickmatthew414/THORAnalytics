@@ -1,16 +1,10 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import NodeDistributionChart from './network/nodeDistribution';
 
 
 export default class ChartCard extends React.Component {
-
-    constructor(props) {
-        super(props)
-    }
-
 
     render() {
         return (
