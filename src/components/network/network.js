@@ -1,5 +1,5 @@
 import React from 'react';
-import { torToRune, toPercent, roundToHundreths, toMillions } from '../../library/library';
+import { torToRune, toPercent, roundToHundreths, toMillions, blocksToTime } from '../../library/library';
 import Header from '../header';
 import Overview from '../overview';
 import ChartCard from '../chartCard'
@@ -20,7 +20,7 @@ export default class Network extends React.Component {
         this.state = {
             size: 2,
             data: {"Active Node Count" : '-', "Standby Node Count": "-",
-            "Time To Next Churn": "-", "Bond APY": "-", "Total Reserve": "-" },
+             "Bond APY": "-", "Total Reserve": "-", "Time To Next Churn": "-" },
             activeBondMetrics: ["-", "-", "-", "-"],
             standbyBondMetrics: ["-", "-", "-", "-"],
             bondHistoryInterval: "week",
@@ -33,11 +33,26 @@ export default class Network extends React.Component {
         this.getNodeBondHistory();
         this.getInboundAddresses();
         this.getNodes();
+        this.getLastBlock();
     }
 
     componentDidMount() { 
         this.mounted = true; 
       }
+
+    getLastBlock = () => {
+        fetch("https://midgard.thorchain.info/v2/thorchain/lastblock")
+        .then(response => response.json())
+        .then(data => {
+            if (this.mounted) {
+                // hacky solution grabbed last height from BNB chain. Need a better solution
+                let blocksToNextChurn = this.state.nextChurnHeight - data[1].last_signed_out;
+                let timeToNextChurn = blocksToTime(blocksToNextChurn);
+                let newData = {...this.state.tempData, "Time To Next Churn": timeToNextChurn}
+                this.setState({data: newData});
+            }
+        })
+    }
 
     getNodes = () => {
         fetch("https://midgard.thorchain.info/v2/thorchain/nodes")
@@ -60,7 +75,7 @@ export default class Network extends React.Component {
     }
 
     getNodeBondHistory = () => {
-        fetch(`https://midgard.thorchain.info/totalValueBonded/GetTVLHistory/v2/history/tvl`)
+        fetch(`https://midgard.thorchain.info/v2/history/tvl`)
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -104,8 +119,11 @@ export default class Network extends React.Component {
 
 
             if (this.mounted) {
-                const data = {"Active Node Count" : activeNodeCount, "Standby Node Count": standbyNodeCount,
-                                "Time To Next Churn": nextChurnHeight, "Bond APY": bondingAPY, "Total Reserve": totalReserve };
+
+                /* a bad solution. Making this temp data and setting it to state.data once we get block height in 
+                 other api call. Need to convert them into a single process so we don't have redundant temp data */
+                const tempData = {"Active Node Count" : activeNodeCount, "Standby Node Count": standbyNodeCount,
+                                "Bond APY": bondingAPY, "Total Reserve": totalReserve };
 
                 for (let i=0; i<activeBonds.length; i++) {
                     activeBonds[i] = torToRune(activeBonds[i])
@@ -125,7 +143,8 @@ export default class Network extends React.Component {
                 let incentivePendulumImbalance = Math.abs(((bondPercentage  - 2/3) * 100).toFixed(2));
                 let optimalLine = incentivePendulumData[1] - 1/3;
 
-                this.setState({data});
+                this.setState({tempData});
+                this.setState({nextChurnHeight})
                 this.setState({activeBonds});
                 this.setState({standbyBonds});
                 this.setState({activeBondMetrics});

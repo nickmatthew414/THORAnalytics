@@ -19,3 +19,17 @@ export function toMillions(value) {
 export function shortenedAddress(address) {
     return address.slice(0, 9) + "..." + address.slice(-5, -1); // first and last 4 characters of address
 }
+
+// solution modified from: https://stackoverflow.com/questions/36098913/convert-seconds-to-days-hours-minutes-and-seconds
+export function blocksToTime(blockCount) {
+    let seconds = blockCount * 6;
+    let d = Math.floor(seconds / (3600*24));
+    let h = Math.floor(seconds % (3600*24) / 3600);
+    let m = Math.floor(seconds % 3600 / 60);
+
+    let dDisplay = d + "D "
+    let hDisplay = h + "H "
+    let mDisplay = m + "M "
+    
+    return dDisplay + hDisplay + mDisplay;
+}

@@ -64,7 +64,7 @@ export default function ChainStatus(props)  {
     }
 
     return (
-        <Card variant="outlined" style={{backgroundColor: '#17A07B', borderColor: "#1BE6C8", marginTop: "2%"}}>
+        <Card variant="outlined" style={{backgroundColor: "#0f674d", borderColor: "#1BE6C8", marginTop: "2%"}}>
             <CardHeader title="Chains Status" style={{color: "white" , textAlign: "center"}} 
                         titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
             <TableContainer component={Paper}>
