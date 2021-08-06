@@ -1,12 +1,14 @@
 # THORAnalytics
-This repo contains a data dashboard for THORChain. 
+This repo contains a data dashboard for THORChain.
+
+![Alt text](./src/assets/thoranalytics.png?raw=true "ThorAnalytics")
 
 #### Motivation: 
 
 1) To learn more about front-end development. 
 2) To benefit the THORChain community.
 
-#### Development Status:
+## Development Status:
 
 Early. Under Active Development.
 
