@@ -12,10 +12,11 @@ import TableCell from '@material-ui/core/TableCell';
 import Divider from '@material-ui/core/Divider';
 import { withStyles, makeStyles } from '@material-ui/core/Styles';
 import { shortenedAddress, torToRune } from '../../library/library';
+import annotationPlugin from 'chartjs-plugin-annotation';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-      // backgroundColor: theme.palette.common.black,
       backgroundColor: '#17A07B',
       color: theme.palette.common.white,
     },

@@ -3,6 +3,13 @@ import { Card, CardContent, CardHeader } from '@material-ui/core';
 import { Bar, Chart } from 'react-chartjs-2';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 
 export default function BondHistory(props) {
@@ -32,6 +39,7 @@ export default function BondHistory(props) {
       };
 
     const options = {
+        // maintainAspectRatio: false,
         elements: {
         bar: {
             borderWidth: 1,
@@ -60,7 +68,9 @@ export default function BondHistory(props) {
     return (
         <Card variant="outlined" style={{marginTop: "2%", width: "100%", backgroundColor: "#3B3F43", borderColor: "#1BE6C8",
          display: "flex", flexDirection: "column", alignItems: "left"}}>
-            <CardHeader title="Total Value Bonded History" titleTypographyProps={{variant:'subtitle2'}} style={{color: "white"}} />
+             <Box display="flex" justifyContent="space-between">
+             <Typography variant="subtitle2" style={{color: "white", margin: "4%"}}>Total Value Bonded - Coming Soon!</Typography>
+             </Box>
             <Box style={{width: "90%", marginLeft: "5%"}}>
                 <Bar data={data} options={options} />
             </Box>

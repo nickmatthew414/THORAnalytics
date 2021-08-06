@@ -56,22 +56,24 @@ export default function ChainStatus(props)  {
         let chainName = chains[chain.chain];
         return (
             <StyledTableRow key={chainName}>
-              <StyledTableCell component="th" scope="row" key={1}>{chainName}</StyledTableCell>
-              <StyledTableCell align="left" key={2}>{getHaltedText(chain.halted)}</StyledTableCell>
-              <StyledTableCell align="left" key={3}>{chain.gas_rate}</StyledTableCell>
+              <StyledTableCell component="th" align="center" key={1}>{chainName}</StyledTableCell>
+              <StyledTableCell align="center" key={2}>{getHaltedText(chain.halted)}</StyledTableCell>
+              <StyledTableCell align="center" key={3}>{chain.gas_rate}</StyledTableCell>
             </StyledTableRow>
         )
     }
 
     return (
-        <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", marginTop: "2%"}}>
+        <Card variant="outlined" style={{backgroundColor: '#17A07B', borderColor: "#1BE6C8", marginTop: "2%"}}>
+            <CardHeader title="Chains Status" style={{color: "white" , textAlign: "center"}} 
+                        titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell key={1}>Chain</StyledTableCell>
-                            <StyledTableCell align="left" key={2}>Status</StyledTableCell>
-                            <StyledTableCell align="left" key={3}>Gas Rate</StyledTableCell>
+                            <StyledTableCell align="center" key={1}>Chain</StyledTableCell>
+                            <StyledTableCell align="center" key={2}>Status</StyledTableCell>
+                            <StyledTableCell align="center" key={3}>Gas Rate</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

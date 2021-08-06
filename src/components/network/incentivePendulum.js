@@ -134,7 +134,7 @@ export default function IncentivePendulum(props) {
                     <Bar data={data} options={options}/>
                 </Box>
                 <Box display="flex" justifyContent="center">
-                    <Typography variant="body2" style={{fontSize: "12px", marginTop: "2%"}}>{`Imbalance: ${props.imbalance}%`}</Typography>
+                    <Typography variant="body2" style={{fontSize: "12px", marginTop: "6%"}}>{`Imbalance: ${props.imbalance}%`}</Typography>
                 </Box>
             </Box>
         </Card>
