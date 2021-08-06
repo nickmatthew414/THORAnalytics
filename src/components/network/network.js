@@ -120,7 +120,7 @@ export default class Network extends React.Component {
 
             if (this.mounted) {
 
-                /* a bad solution. Making this temp data and setting it to state.data once we get block height in 
+                /* A bad solution. Making this temp data and setting it to state.data once we get block height in 
                  other api call. Need to convert them into a single process so we don't have redundant temp data */
                 const tempData = {"Active Node Count" : activeNodeCount, "Standby Node Count": standbyNodeCount,
                                 "Bond APY": bondingAPY, "Total Reserve": totalReserve };
@@ -180,13 +180,9 @@ export default class Network extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid container item xs={5} justifyContent="space-between">
-                    <Grid item xs={6}>
-                        <BondMetricsCard metrics={this.state.activeBondMetrics} nodeType="Active" title="Active Bond Stats" />
-                    </Grid>
-                    <Grid item xs={6} >
-                        <BondMetricsCard metrics={this.state.standbyBondMetrics} nodeType="Standby" title="Standby Bond Stats" />
-                    </Grid> 
-                    
+                        <Grid item xs={12}>
+                            <BondMetricsCard activeMetrics={this.state.activeBondMetrics} standbyMetrics={this.state.standbyBondMetrics} />
+                        </Grid> 
                     <BondHistory />
 
                     </Grid>
