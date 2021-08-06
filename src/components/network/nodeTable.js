@@ -18,17 +18,24 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: '#17A07B',
+    // backgroundColor: "#0f674d",
       color: theme.palette.common.white,
     },
     body: {
       fontSize: 14,
+      color: "white"
     },
   }))(TableCell);
   
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+        // backgroundColor: theme.palette.action.hover,
+        backgroundColor: "#3B3F43",
+      },
+      '&:nth-of-type(even)': {
+        //   backgroundColor: "#2c2c30",
+        backgroundColor: "#37373c"
       },
     },
   }))(TableRow);
@@ -67,7 +74,7 @@ export default function NodeTable(props) {
     }
 
     return (
-        <Card variant="outlined" style={{ borderColor: "#1BE6C8", backgroundColor: "#17A07B", marginTop: "2%"}}>
+        <Card variant="outlined" style={{ borderColor: "#1BE6C8", backgroundColor: "#0f674d", marginTop: "2%"}}>
              <CardHeader title={props.title} style={{color: "white" , textAlign: "center"}} 
                         titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
             <TableContainer component={Paper}>
