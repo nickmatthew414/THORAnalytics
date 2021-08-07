@@ -7,6 +7,8 @@ import LiquidityPools from './components/liquidityPools/liquidityPools';
 import Rune from './components/rune/rune';
 
 function App() {
+
+
   return (
       <Router>
         <Switch>

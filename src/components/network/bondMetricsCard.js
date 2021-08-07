@@ -11,7 +11,7 @@ export default class BondMetricsCard extends React.Component {
         let metrics = ["Maximum", "Minimum", "Average", "Median", ];
         for (let i=0; i<metrics.length; i++) {
             content.push(
-                <Box display="flex" justifyContent="space-between">
+                <Box display="flex" justifyContent="space-between" key={i}>
                     <p>{`${metrics[i]} ${node_type} Bond: `}</p> 
                     <p>{`${metricsValues[i]}`}</p>
                     <br></br>

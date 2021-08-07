@@ -13,12 +13,11 @@ This repo contains a data dashboard for THORChain.
 Early. Under Active Development.
 
 ### Network Page:
-1) Move API calls into a single process so the page only renders once
-2) Fix a couple scrappy solutions
-3) Move all inline styles to scss
-4) Change color scheme, especially on the tables
-5) Improve component positioning across window sizes
-6) Connect total value bonded feed to graph (waiting on updates to midgard)
+To Do:
+1) Move all inline styles to scss
+2) Change color scheme, especially on the tables
+3) Improve component positioning across window sizes
+4) Connect total value bonded feed to graph (waiting on updates to midgard)
 
 ### Liquidity Pools Page:
 To Do
