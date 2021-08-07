@@ -18,7 +18,6 @@ export default class Network extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            size: 2,
             data: {"Active Node Count" : '-', "Standby Node Count": "-", "Time To Next Churn": "-",
              "Bond APY": "-", "Total Reserve": "-"},
             activeBondMetrics: ["-", "-", "-", "-"],
@@ -126,7 +125,7 @@ export default class Network extends React.Component {
             <div>
                 <Header page="Network"/>
 
-                <Overview data={this.state.data} size={this.state.size} />
+                <Overview data={this.state.data} />
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={5}>

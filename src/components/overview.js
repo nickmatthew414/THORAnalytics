@@ -5,13 +5,12 @@ import Grid from '@material-ui/core/Grid';
 
 export default class Overview extends React.Component {
 
-    size = 2;
-
     returnCard = () => {
+        const size = 2;
         let cardData = []
         for (const [title, value] of Object.entries(this.props.data)) {
              cardData.push(
-                <Grid item xs={this.props.size} key={title}>
+                <Grid item xs={size} key={title}>
                     <OverviewCard title={title} value={value} />
                 </Grid>
             )
