@@ -57,19 +57,19 @@ export default class Network extends React.Component {
                 if (this.mounted) {
 
                     // network data
-                    let activeNodeCount = networkData.activeNodeCount;
-                    let totalActiveBond = roundToHundreths(torToRune(networkData.bondMetrics.totalActiveBond));
-                    let standbyNodeCount = networkData.standbyNodeCount;
-                    let totalPooledRune = roundToHundreths(torToRune(networkData.totalPooledRune));
-                    let nextChurnHeight = networkData.nextChurnHeight;
-                    let bondingAPY = roundToHundreths(toPercent(networkData.bondingAPY)) + "%";
-                    let totalReserve = roundToHundreths(toMillions(torToRune(networkData.totalReserve))) + "M RUNE";
-                    let activeBonds = networkData.activeBonds.reverse(); // get from largest to smallest
-                    let standbyBonds = networkData.standbyBonds.reverse(); // get from largest to smallest
-                    let bondMetrics = networkData.bondMetrics;
-                    let activeBondMetrics = [bondMetrics.maximumActiveBond,bondMetrics.minimumActiveBond, bondMetrics.averageActiveBond, 
+                    const activeNodeCount = networkData.activeNodeCount;
+                    const totalActiveBond = roundToHundreths(torToRune(networkData.bondMetrics.totalActiveBond));
+                    const standbyNodeCount = networkData.standbyNodeCount;
+                    const totalPooledRune = roundToHundreths(torToRune(networkData.totalPooledRune));
+                    const nextChurnHeight = networkData.nextChurnHeight;
+                    const bondingAPY = roundToHundreths(toPercent(networkData.bondingAPY)) + "%";
+                    const totalReserve = roundToHundreths(toMillions(torToRune(networkData.totalReserve))) + "M RUNE";
+                    const activeBonds = networkData.activeBonds.reverse(); // get from largest to smallest
+                    const standbyBonds = networkData.standbyBonds.reverse(); // get from largest to smallest
+                    const bondMetrics = networkData.bondMetrics;
+                    const activeBondMetrics = [bondMetrics.maximumActiveBond,bondMetrics.minimumActiveBond, bondMetrics.averageActiveBond, 
                         bondMetrics.medianActiveBond];
-                    let standbyBondMetrics = [bondMetrics.maximumStandbyBond, bondMetrics.minimumStandbyBond, bondMetrics.averageStandbyBond, 
+                    const standbyBondMetrics = [bondMetrics.maximumStandbyBond, bondMetrics.minimumStandbyBond, bondMetrics.averageStandbyBond, 
                         bondMetrics.medianStandbyBond];
 
                     for (let i=0; i<activeBonds.length; i++) {
@@ -85,11 +85,11 @@ export default class Network extends React.Component {
                         standbyBondMetrics[i] = Math.round(torToRune(standbyBondMetrics[i])).toLocaleString();
                     }
 
-                    let bondPercentage = totalActiveBond / (Number(totalActiveBond) + Number(totalPooledRune));
-                    let LPPercentage = totalPooledRune / (Number(totalActiveBond) + Number(totalPooledRune));
-                    let incentivePendulumData = [bondPercentage, LPPercentage];
-                    let incentivePendulumImbalance = Math.abs(((bondPercentage  - 2/3) * 100).toFixed(2));
-                    let optimalLine = incentivePendulumData[1] - 1/3;
+                    const bondPercentage = totalActiveBond / (Number(totalActiveBond) + Number(totalPooledRune));
+                    const LPPercentage = totalPooledRune / (Number(totalActiveBond) + Number(totalPooledRune));
+                    const incentivePendulumData = [bondPercentage, LPPercentage];
+                    const incentivePendulumImbalance = Math.abs(((bondPercentage  - 2/3) * 100).toFixed(2));
+                    const optimalLine = incentivePendulumData[1] - 1/3;
 
 
                     // nodes data
@@ -105,8 +105,8 @@ export default class Network extends React.Component {
 
 
                     // last block data
-                    let blocksToNextChurn = nextChurnHeight - lastBlockData[1].last_signed_out;
-                    let timeToNextChurn = blocksToTime(blocksToNextChurn);
+                    const blocksToNextChurn = nextChurnHeight - lastBlockData[1].last_signed_out;
+                    const timeToNextChurn = blocksToTime(blocksToNextChurn);
 
                     // finally setting state
                     this.setState({activeBonds, standbyBonds, activeBondMetrics, standbyBondMetrics, totalActiveBond,
