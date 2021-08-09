@@ -129,10 +129,10 @@ export default class Network extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={5}>
-                    <ChartCard data={this.state.activeBonds} title={"Active Node Bonds"} />
+                    <ChartCard chart="nodeDistribution" data={this.state.activeBonds} title={"Active Node Bonds"} />
                     </Grid>
                     <Grid item xs={5}>
-                    <ChartCard data={this.state.standbyBonds} title={"Standby Node Bonds"}/>
+                    <ChartCard chart="nodeDistribution" data={this.state.standbyBonds} title={"Standby Node Bonds"}/>
                     </Grid>
                 </Grid>
 
