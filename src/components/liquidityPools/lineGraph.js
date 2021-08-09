@@ -43,13 +43,12 @@ export default function LineGraph(props) {
       
       const options = {
         scales: {
-          yAxes: [
-            {
-              ticks: {
+          yAxes: [{
+            ticks: {
                 beginAtZero: true,
-              },
+                maxTicksLimit: 3,
             },
-          ],
+          }],
           x: {
             ticks: {
               display: false,
@@ -62,7 +61,12 @@ export default function LineGraph(props) {
           },
           tooltip: {
               mode: "nearest",
-              intersect: false
+              intersect: false,
+              callbacks: {
+                label: function(context) { 
+                    return `${context.dataset.label}: $${Number(context.dataset.data[context.dataIndex]).toLocaleString()}`;
+                }
+              }
           }
         }
       };

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from '../header';
 import ChartCard from '../chartCard';
 import Overview from '../overview';
+import LiquidityMetrics from './liquidityMetrics';
 import { torToRune, roundToHundreths, toMillions, toPercent } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
 
@@ -15,7 +16,8 @@ export default class LiquidityPools extends React.Component {
         this.state = {
             data: { "Total Pooled Rune": "-", "Liquidity APY": "-", 
                "Total Value Locked": "-", "Daily Volume": "-", "Total Volume": "-"
-            }
+            },
+
         }
         this.fetchData();
     }
@@ -57,7 +59,9 @@ export default class LiquidityPools extends React.Component {
                     const runePrice = statsData.runePriceUSD;
                     const totalVolume = (toMillions(torToRune(statsData.swapVolume * runePrice))/1000).toFixed(2) + "B";
                     const liquidityAPY = roundToHundreths(toPercent(Number(networkData.liquidityAPY))) + "%";
-                    const totalValueLocked = "To Be Done";
+                    let totalValueLocked = torToRune(Number(networkData.bondMetrics.totalActiveBond) + Number(networkData.totalPooledRune)*2) * runePrice;
+                    totalValueLocked = "$" + toMillions(totalValueLocked).toFixed(2) + "M";
+                    const impermanentLossProtectionPaid = "$" + Math.round(torToRune(Number(statsData.impermanentLossProtectionPaid))).toLocaleString();
 
                     // grab and format swap volume, total rune pooled, asset history, and price history
                     let swapVolume = [];
@@ -82,7 +86,10 @@ export default class LiquidityPools extends React.Component {
                     this.setState({data: {
                         "Total Pooled Rune": totalPooledRune, "Daily Volume": dailyVolume, "Total Volume": totalVolume,
                         "Liquidity APY": liquidityAPY, "Total Value Locked": totalValueLocked,
-                        }, swapVolume, totalValuePooled, depthHistory, priceHistory
+                        }, swapVolume, totalValuePooled, depthHistory, priceHistory,
+                        dailyActiveUsers: statsData.dailyActiveUsers, monthlyActiveUsers: statsData.monthlyActiveUsers, 
+                        uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
+                        poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown
                         })
                 }
             }
@@ -107,12 +114,16 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={5}>
-                    <ChartCard chart="liquidityDistribution" data={this.state.depthHistory} title={"Asset Depth History"} />
+                        <ChartCard chart="lineGraph" data={this.state.priceHistory} title={"Asset Price"}/>
                     </Grid>
                     <Grid item xs={5}>
-                    <ChartCard chart="lineGraph" data={this.state.priceHistory} title={"Asset Price"}/>
+                    <ChartCard chart="liquidityDistribution" data={this.state.depthHistory} title={"Asset Depth History"} />
                     </Grid>
                 </Grid>
+
+                <LiquidityMetrics dailyActiveUsers={this.state.dailyActiveUsers} monthlyActiveUsers={this.state.monthlyActiveUsers}
+                    impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} />
+
 
             </div>
         )
