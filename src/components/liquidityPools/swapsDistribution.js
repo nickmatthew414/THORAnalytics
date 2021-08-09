@@ -7,7 +7,6 @@ export default function SwapDistribution(props) {
     Chart.defaults.color = "#FFFFFF";  // change text color to white
 
     let date = new Date();
-    console.log(date);
     let labels = [];
     if (props.data !== undefined) {
       for (let i=0; i<props.data.length; i++) {

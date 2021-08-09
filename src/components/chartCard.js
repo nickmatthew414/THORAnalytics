@@ -18,7 +18,6 @@ export default class ChartCard extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
         return (
             <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column", alignItems: "center"}}>
                 <CardHeader title={this.props.title} style={{color: "white", }} 
