@@ -98,7 +98,7 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={5}>
-                    <ChartCard chart="liquidityDistribution" data={this.state.totalValuePooled} title={"Total Value Pooled"} />
+                    <ChartCard chart="lineGraph" data={this.state.totalValuePooled} title={"Total Value Pooled"} />
                     </Grid>
                     <Grid item xs={5}>
                     <ChartCard chart="liquidityDistribution" data={this.state.swapVolume} title={"Swap Volume"}/>
@@ -110,7 +110,7 @@ export default class LiquidityPools extends React.Component {
                     <ChartCard chart="liquidityDistribution" data={this.state.depthHistory} title={"Asset Depth History"} />
                     </Grid>
                     <Grid item xs={5}>
-                    <ChartCard chart="liquidityDistribution" data={this.state.priceHistory} title={"Asset Price"}/>
+                    <ChartCard chart="lineGraph" data={this.state.priceHistory} title={"Asset Price"}/>
                     </Grid>
                 </Grid>
 
