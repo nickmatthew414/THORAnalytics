@@ -30,7 +30,7 @@ export default function LiquidityMetricsCard(props) {
     const classes = useStyles();
 
     return (
-        <Paper variant="outlined" className={classes.paper}>
+        <Paper variant="outlined" className={classes.paper} style={{marginTop: props.margin}}>
             <Typography classes={{root: classes.paperHeader}}>{props.title}</Typography>
             <Typography classes={{root: classes.paperValue}}>{props.value}</Typography>
         </Paper>

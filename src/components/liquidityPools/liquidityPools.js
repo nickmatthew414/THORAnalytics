@@ -121,8 +121,15 @@ export default class LiquidityPools extends React.Component {
                     </Grid>
                 </Grid>
 
+                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                 <LiquidityMetrics dailyActiveUsers={this.state.dailyActiveUsers} monthlyActiveUsers={this.state.monthlyActiveUsers}
-                    impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} />
+                    impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
+                    poolActivationCountdown={this.state.poolActivationCountdown} />
+                <Grid item xs={5}>
+                    <ChartCard chart="lineGraph" data={this.state.priceHistory} title={"Asset Price"}/>
+                </Grid>
+
+                </Grid>
 
 
             </div>
