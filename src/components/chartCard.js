@@ -5,6 +5,7 @@ import NodeDistributionChart from './network/nodeDistribution';
 import SwapDistribution from './liquidityPools/swapsDistribution';
 import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
+import Box from '@material-ui/core/Box';
 
 
 export default class ChartCard extends React.Component {
@@ -20,7 +21,11 @@ export default class ChartCard extends React.Component {
             return <LineGraph data={this.props.data} title={this.props.title} />
         }
         if (this.props.chart === "poolSizes") {
-            return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} />
+            console.log(this.props.assetTotalValues)
+            console.log(this.props.assetPrices);
+            return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} 
+            assetTotalValues={this.props.assetTotalValues} assetPrices={this.props.assetPrices} />
+
         }
         return <div></div>
     }

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Pie, Chart } from 'react-chartjs-2';
+import PoolSizesTable from './poolSizesTable';
 
 
 export default function PoolSizesChart(props) {
 
     Chart.defaults.color = "#FFFFFF";  // change text color to white
-    const backgroundColors = [
+    const colors = [
         '#17A07B', 'red', 'green', 'blue', 'purple', 'white', 'orange', 'yellow', 'pink']
 
     const labelsMaker = () => {
@@ -33,7 +34,7 @@ export default function PoolSizesChart(props) {
           {
             label: props.title,
             data: dataMaker(),
-            backgroundColor: backgroundColors,
+            backgroundColor: colors,
             borderColor: [
               '#0F1821',
             ],
@@ -44,6 +45,7 @@ export default function PoolSizesChart(props) {
       };
       
       const options = {
+        maintainAspectRatio: false,
         scales: {
           y: {
               ticks: {
@@ -79,6 +81,13 @@ export default function PoolSizesChart(props) {
         }
       };
 
-    return <Pie data={data} options={options}/>
-
+    return (
+      <div style={{display: "flex", justifyContent: "space-between", margin: "2%"}}>
+      <div style={{position: "relative", height: "12vw", width: "12vw"}}>
+        <Pie data={data} options={options} />
+      </div>
+      <PoolSizesTable names={labelsMaker()} colors={colors} 
+        assetTotalValues={props.assetTotalValues} assetPrices={props.assetPrices}/>
+      </div>
+    )
 }

@@ -6,6 +6,7 @@ import Overview from '../overview';
 import LiquidityMetrics from './liquidityMetrics';
 import { torToRune, roundToHundreths, toMillions, toPercent } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 
 export default class LiquidityPools extends React.Component {
@@ -104,6 +105,7 @@ export default class LiquidityPools extends React.Component {
                     let assetTotalValues = [];
                     let assetDominances = [];
                     let assetAPYs = [];
+                    let assetPrices = [];
                     for (let i=0; i<poolsData.length; i++) {
                         // asset comes in format CHAIN.ASSET-ADDRESS
                         const assetName = poolsData[i].asset.split("-")[0]
@@ -116,6 +118,7 @@ export default class LiquidityPools extends React.Component {
                         assetTotalValues.push(assetTotalValue);
                         assetDominances.push(assetDominance);
                         assetAPYs.push(poolAPY);
+                        assetPrices.push(poolsData[i].assetPriceUSD);
                     }
                     console.log(assetNames)
                     console.log(assetDominances);
@@ -127,7 +130,7 @@ export default class LiquidityPools extends React.Component {
                         dailyActiveUsers: statsData.dailyActiveUsers, monthlyActiveUsers: statsData.monthlyActiveUsers, 
                         uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
                         poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown,
-                        assetNames, assetTotalValues, assetDominances, assetAPYs
+                        assetNames, assetTotalValues, assetDominances, assetAPYs, assetPrices
                         })
                 }
             }
@@ -164,8 +167,9 @@ export default class LiquidityPools extends React.Component {
                     impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
                     poolActivationCountdown={this.state.poolActivationCountdown} />
                 <Grid item xs={5}>
-                    {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} data={this.state.assetDominances} title="Asset Dominance"/>}
-                    {/* {this.state.assetNames && <ChartCard chart="poolSizes" labels={"Blah"} data={[0]} title="Asset Dominance"/>} */}
+                    {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
+                        data={this.state.assetDominances} title="Asset Dominance"
+                        assetTotalValues={this.state.assetTotalValues} assetPrices={this.state.assetPrices}/>}
                 </Grid>
 
                 </Grid>
