@@ -5,7 +5,7 @@ import ChartCard from '../chartCard';
 import Overview from '../overview';
 import LiquidityMetrics from './liquidityMetrics';
 import PoolsTable from './poolsTable';
-import { torToRune, roundToHundreths, toMillions, toPercent } from '../../library/library';
+import { torToRune, roundToHundreths, toMillions, toMillionsString, toPercent } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -70,13 +70,13 @@ export default class LiquidityPools extends React.Component {
                 if (this.mounted) {
                     // need to clean this up. Should keep values as they are for state and change how we show them, 
                     //  rather than changing the stored values themselves
-                    const totalPooledRune = toMillions(torToRune(networkData.totalPooledRune)).toFixed(1) + "M";
+                    const totalPooledRune = toMillionsString(torToRune(networkData.totalPooledRune));
                     const dailyVolume = toMillions(torToRune(dailyVolumeData.intervals[0].totalVolume));
                     const runePrice = statsData.runePriceUSD;
                     const totalVolume = (toMillions(torToRune(statsData.swapVolume * runePrice))/1000).toFixed(2) + "B";
                     const liquidityAPY = roundToHundreths(toPercent(Number(networkData.liquidityAPY))) + "%";
                     let totalValueLocked = torToRune(Number(networkData.bondMetrics.totalActiveBond) + Number(networkData.totalPooledRune)*2) * runePrice;
-                    totalValueLocked = "$" + toMillions(totalValueLocked).toFixed(2) + "M";
+                    totalValueLocked = "$" + toMillionsString(totalValueLocked);
                     const impermanentLossProtectionPaid = "$" + Math.round(torToRune(Number(statsData.impermanentLossProtectionPaid))).toLocaleString();
 
                     // grab and format swap volume, total rune pooled, asset history, and price history
@@ -103,23 +103,29 @@ export default class LiquidityPools extends React.Component {
 
                     // Data for pool depth pie chart
                     let assetNames = [];
+                    let assetVolumes = []
                     let assetTotalValues = [];
                     let assetDominances = [];
                     let assetAPYs = [];
                     let assetPrices = [];
+                    let assetData = [];
                     for (let i=0; i<poolsData.length; i++) {
                         // asset comes in format CHAIN.ASSET-ADDRESS
                         const assetName = poolsData[i].asset.split("-")[0]
+                        const assetVolume = torToRune(poolsData[i].volume24h) * runePrice;
                         const assetTotalValue = torToRune(poolsData[i].runeDepth) * runePrice;
                         // the value of all non-RUNE assets is the same as the value of all pooled RUNE
                         // slicing off the M on totalPooledRune
                         const assetDominance = assetTotalValue / (torToRune(networkData.totalPooledRune) * runePrice);
                         const poolAPY = poolsData[i].poolAPY;
+                        const assetPrice = poolsData[i].assetPriceUSD;
                         assetNames.push(assetName);
                         assetTotalValues.push(assetTotalValue);
                         assetDominances.push(assetDominance);
                         assetAPYs.push(poolAPY);
-                        assetPrices.push(poolsData[i].assetPriceUSD);
+                        assetPrices.push(assetPrice);
+                        assetData.push({"Asset": assetName, "Daily Volume": assetVolume,
+                            "Pool Depth": assetTotalValue, "Pool APY": poolAPY, "Price": assetPrice});
                     }
 
 
@@ -130,7 +136,8 @@ export default class LiquidityPools extends React.Component {
                         dailyActiveUsers: statsData.dailyActiveUsers, monthlyActiveUsers: statsData.monthlyActiveUsers, 
                         uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
                         poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown,
-                        assetNames, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, totalPooledRune: torToRune(networkData.totalPooledRune)
+                        assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, totalPooledRune: torToRune(networkData.totalPooledRune),
+                        assetData
                         })
                 }
             }
@@ -177,8 +184,7 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={10}>
-                    {this.state.assetNames && <PoolsTable tableData={[this.state.assetNames,
-                    this.state.assetTotalValues, this.state.assetPrices, this.state.assetAPYs]} />}
+                    {this.state.assetNames && <PoolsTable tableData={this.state.assetData} />}
                     </Grid>
                 </Grid>
 

@@ -8,12 +8,24 @@ export function toPercent(value) {
     return value * 100;
 }
 
+export function toPercentString(value) {
+    return toPercent(value).toFixed(2) + "%";
+}
+
+export function toPriceString(value) {
+    return "$" + Number(value).toFixed(2);
+}
+
 export function roundToHundreths(value) {
     return value.toFixed(2);
 }
 
 export function toMillions(value) {
     return value / 1000000
+}
+
+export function toMillionsString(value) {
+    return toMillions(value).toFixed(2) + "M";
 }
 
 export function shortenedAddress(address) {

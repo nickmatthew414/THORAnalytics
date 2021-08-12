@@ -7,6 +7,7 @@ import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles, makeStyles } from '@material-ui/core/Styles'
+import { toMillionsString, toPercentString, toPriceString } from '../../library/library';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -41,17 +42,29 @@ const StyledTableCell = withStyles((theme) => ({
 export default function PoolsTable(props) {
 
     const classes = useStyles();
-    let data = [1, 2, 3]
-    let headerLabels = ["Asset", "Pool Depth", "Asset Price", "Pool APY"]
 
-    const getStyledTableCell = (value, index) => {
-        return <StyledTableCell align="left" key={index}>{value}</StyledTableCell>
+    const getStyledTableCell = (value, key) => {
+      if (key === "Pool Depth" || key === "Daily Volume") {
+        if (key === "Pool Depth") value *= 2;  // pool depth is non-rune + rune
+        value = toMillionsString(value);
+      }
+      if (key === "Pool APY") {
+        value = toPercentString(value);
+      }
+      if (key === "Price") {
+        value = toPriceString(value);
+      }
+        return <StyledTableCell align="left" key={key}>{value}</StyledTableCell>
     }
 
-    const getRowData = (value, index) => {
-        return (
-            <StyledTableRow key={index}>{value}</StyledTableRow>
-        )
+    const getRowData = (data, index) => {
+      let row = [];
+        for (const key of Object.keys(data)) {
+          row.push(
+            getStyledTableCell(data[key], key)
+          )
+        }
+      return <StyledTableRow key={index}>{row}</StyledTableRow>
     }
 
     return (
@@ -59,14 +72,14 @@ export default function PoolsTable(props) {
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        {props.tableData && headerLabels.map((header, index) => (
+                        {props.tableData && Object.keys(props.tableData[0]).map((header, index) => (
                             getStyledTableCell(header, index)
                         ))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.tableData && data.map((value, index) => (
-                    getRowData(value, index)
+                {props.tableData && props.tableData.map((data, index) => (
+                    getRowData(data, index)
                     ))}
                 </TableBody>
             </Table>
