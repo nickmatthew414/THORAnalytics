@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { toMillions } from '../../library/library';
+import { toMillions, toPercent } from '../../library/library';
 
 const useStyles = makeStyles({
     paper: {
@@ -49,6 +49,14 @@ export default function PoolSizesTable(props) {
             }
             return toMillions(depth * 2).toFixed(2) + "M";
         }
+
+        const getAPYs = (apy) => {
+            if (name === "Other") {
+                return "---"
+            }
+            return toPercent(apy).toFixed(2) + "%";
+        }
+
         return (
             <TableRow key={i}>
                 <TableCell className={classes.tableCell} component="th" scope="row">
@@ -58,7 +66,7 @@ export default function PoolSizesTable(props) {
                 </TableCell>
                 <TableCell className={classes.tableCell} align="left">{getDepth(props.assetTotalValues[i])}</TableCell>
                 <TableCell className={classes.tableCell} align="left">{getPrices(props.assetPrices[i])}</TableCell>
-                <TableCell className={classes.tableCell} align="left">{3}</TableCell>
+                <TableCell className={classes.tableCell} align="left">{getAPYs(props.assetAPYs[i])}</TableCell>
             </TableRow>
         )
         

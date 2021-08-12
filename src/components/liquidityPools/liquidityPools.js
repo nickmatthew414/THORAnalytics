@@ -169,7 +169,8 @@ export default class LiquidityPools extends React.Component {
                 <Grid item xs={5}>
                     {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
                         data={this.state.assetDominances} title="Asset Dominance"
-                        assetTotalValues={this.state.assetTotalValues} assetPrices={this.state.assetPrices}/>}
+                        assetTotalValues={this.state.assetTotalValues} assetPrices={this.state.assetPrices}
+                        assetAPYs={this.state.assetAPYs} />}
                 </Grid>
 
                 </Grid>

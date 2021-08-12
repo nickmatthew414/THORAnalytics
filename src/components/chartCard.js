@@ -24,7 +24,8 @@ export default class ChartCard extends React.Component {
             console.log(this.props.assetTotalValues)
             console.log(this.props.assetPrices);
             return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} 
-            assetTotalValues={this.props.assetTotalValues} assetPrices={this.props.assetPrices} />
+            assetTotalValues={this.props.assetTotalValues} assetPrices={this.props.assetPrices}
+            assetAPYs={this.props.assetAPYs} />
 
         }
         return <div></div>

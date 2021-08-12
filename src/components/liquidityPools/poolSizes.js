@@ -87,7 +87,7 @@ export default function PoolSizesChart(props) {
         <Pie data={data} options={options} />
       </div>
       <PoolSizesTable names={labelsMaker()} colors={colors} 
-        assetTotalValues={props.assetTotalValues} assetPrices={props.assetPrices}/>
+        assetTotalValues={props.assetTotalValues} assetPrices={props.assetPrices} assetAPYs={props.assetAPYs} />
       </div>
     )
 }
