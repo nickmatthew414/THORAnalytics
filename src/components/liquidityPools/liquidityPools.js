@@ -4,6 +4,7 @@ import Header from '../header';
 import ChartCard from '../chartCard';
 import Overview from '../overview';
 import LiquidityMetrics from './liquidityMetrics';
+import PoolsTable from './poolsTable';
 import { torToRune, roundToHundreths, toMillions, toPercent } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
 
@@ -99,7 +100,6 @@ export default class LiquidityPools extends React.Component {
                     }
 
                     poolsData.sort(this.compare);
-                    console.log(poolsData);
 
                     // Data for pool depth pie chart
                     let assetNames = [];
@@ -121,8 +121,7 @@ export default class LiquidityPools extends React.Component {
                         assetAPYs.push(poolAPY);
                         assetPrices.push(poolsData[i].assetPriceUSD);
                     }
-                    console.log(assetNames)
-                    console.log(assetDominances);
+
 
                     this.setState({data: {
                         "Total Pooled Rune": totalPooledRune, "Daily Volume": dailyVolume, "Total Volume": totalVolume,
@@ -175,6 +174,14 @@ export default class LiquidityPools extends React.Component {
                 </Grid>
 
                 </Grid>
+
+                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={10}>
+                    {this.state.assetNames && <PoolsTable tableData={[this.state.assetNames,
+                    this.state.assetTotalValues, this.state.assetPrices, this.state.assetAPYs]} />}
+                    </Grid>
+                </Grid>
+
 
 
             </div>
