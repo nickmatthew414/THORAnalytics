@@ -5,7 +5,6 @@ import NodeDistributionChart from './network/nodeDistribution';
 import SwapDistribution from './liquidityPools/swapsDistribution';
 import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
-import Box from '@material-ui/core/Box';
 
 
 export default class ChartCard extends React.Component {
@@ -21,11 +20,9 @@ export default class ChartCard extends React.Component {
             return <LineGraph data={this.props.data} title={this.props.title} />
         }
         if (this.props.chart === "poolSizes") {
-            console.log(this.props.assetTotalValues)
-            console.log(this.props.assetPrices);
             return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} 
-            assetTotalValues={this.props.assetTotalValues} assetPrices={this.props.assetPrices}
-            assetAPYs={this.props.assetAPYs} />
+            assetTotalValues={this.props.assetTotalValues} assetAPYs={this.props.assetAPYs}
+            totalPooledRune={this.props.totalPooledRune} runePrice={this.props.runePrice} />
 
         }
         return <div></div>
@@ -33,7 +30,7 @@ export default class ChartCard extends React.Component {
 
     render() {
         return (
-            <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column"}}>
                 <CardHeader title={this.props.title} style={{color: "white", }} 
                         titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
                 {this.returnChart()}

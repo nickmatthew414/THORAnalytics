@@ -6,7 +6,6 @@ import Overview from '../overview';
 import LiquidityMetrics from './liquidityMetrics';
 import { torToRune, roundToHundreths, toMillions, toPercent } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 
 
 export default class LiquidityPools extends React.Component {
@@ -68,6 +67,8 @@ export default class LiquidityPools extends React.Component {
                 const poolsData = allData[6].data;
  
                 if (this.mounted) {
+                    // need to clean this up. Should keep values as they are for state and change how we show them, 
+                    //  rather than changing the stored values themselves
                     const totalPooledRune = toMillions(torToRune(networkData.totalPooledRune)).toFixed(1) + "M";
                     const dailyVolume = toMillions(torToRune(dailyVolumeData.intervals[0].totalVolume));
                     const runePrice = statsData.runePriceUSD;
@@ -130,7 +131,7 @@ export default class LiquidityPools extends React.Component {
                         dailyActiveUsers: statsData.dailyActiveUsers, monthlyActiveUsers: statsData.monthlyActiveUsers, 
                         uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
                         poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown,
-                        assetNames, assetTotalValues, assetDominances, assetAPYs, assetPrices
+                        assetNames, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, totalPooledRune: torToRune(networkData.totalPooledRune)
                         })
                 }
             }
@@ -169,8 +170,8 @@ export default class LiquidityPools extends React.Component {
                 <Grid item xs={5}>
                     {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
                         data={this.state.assetDominances} title="Asset Dominance"
-                        assetTotalValues={this.state.assetTotalValues} assetPrices={this.state.assetPrices}
-                        assetAPYs={this.state.assetAPYs} />}
+                        assetTotalValues={this.state.assetTotalValues} assetAPYs={this.state.assetAPYs}
+                        totalPooledRune={this.state.totalPooledRune} runePrice={this.state.runePrice} />}
                 </Grid>
 
                 </Grid>

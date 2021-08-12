@@ -82,12 +82,13 @@ export default function PoolSizesChart(props) {
       };
 
     return (
-      <div style={{display: "flex", justifyContent: "space-between", margin: "2%"}}>
-      <div style={{position: "relative", height: "12vw", width: "12vw"}}>
+      <div style={{display: "flex", margin: "2%", gap: "2%", alignItems: "center"}}>
+      <div style={{position: "relative", height: "20vw", width: "20vw"}}>
         <Pie data={data} options={options} />
       </div>
       <PoolSizesTable names={labelsMaker()} colors={colors} 
-        assetTotalValues={props.assetTotalValues} assetPrices={props.assetPrices} assetAPYs={props.assetAPYs} />
+        assetTotalValues={props.assetTotalValues} assetPrices={props.assetPrices} assetAPYs={props.assetAPYs} 
+        totalPooledRune={props.totalPooledRune} runePrice={props.runePrice}/>
       </div>
     )
 }
