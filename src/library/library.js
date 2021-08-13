@@ -1,5 +1,17 @@
 
 
+// taken from: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
+// for sorting liqudity pools by size
+export function compareDepth(a, b) {
+    if (Number(a.runeDepth) > Number(b.runeDepth)) {
+        return -1;
+    }
+    if (Number(b.runeDepth) > Number(a.runeDepth)){
+        return 1;
+    }
+    return 0;
+}
+
 export function torToRune(tor) {
     return tor / 100000000;
 }

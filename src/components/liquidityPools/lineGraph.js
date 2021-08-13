@@ -63,7 +63,14 @@ export default function LineGraph(props) {
               intersect: false,
               callbacks: {
                 label: function(context) { 
-                    return `${context.dataset.label}: $${Number(context.dataset.data[context.dataIndex]).toLocaleString()}`;
+                    let number;
+                    if (Number(context.dataset.data[context.dataIndex]) > 100) {
+                      number = Math.round(Number(context.dataset.data[context.dataIndex])).toLocaleString();
+                    } else {
+                      number = Number(context.dataset.data[context.dataIndex]).toFixed(2);
+                    }
+      
+                    return `${context.dataset.label}: $${number}`;
                 }
               }
           }

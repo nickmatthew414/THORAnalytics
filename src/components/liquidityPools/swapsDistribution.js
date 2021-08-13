@@ -55,8 +55,20 @@ export default function SwapDistribution(props) {
         plugins: {
           legend: {
             display: false
-          }
-        }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) { 
+                  if (props.title === "Swap Volume") {
+                    const number = Math.round(Number(context.dataset.data[context.dataIndex])).toLocaleString();
+                    return `${context.dataset.label}: $${number}`
+                  } 
+                  const number = Number(context.dataset.data[context.dataIndex]).toFixed(2);
+                  return `${context.dataset.label}: ${number}`;
+              },
+            },
+          },
+        },
       };
 
     return <Bar data={data} options={options}/>

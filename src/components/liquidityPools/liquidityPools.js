@@ -5,7 +5,7 @@ import ChartCard from '../chartCard';
 import Overview from '../overview';
 import LiquidityMetrics from './liquidityMetrics';
 import PoolsTable from './poolsTable';
-import { torToRune, roundToHundreths, toMillions, toMillionsString, toPercent } from '../../library/library';
+import { torToRune, toMillions, toMillionsString, toPercentString, compareDepth } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -15,9 +15,16 @@ export default class LiquidityPools extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: { "Total Pooled Rune": "-", "Liquidity APY": "-", 
-               "Total Value Locked": "-", "Daily Volume": "-", "Total Volume": "-"
-            },
+            totalPooledRune: "0",
+            liquidityAPY: "0",
+            totalValueLocked: "0",
+            dailyVolume: "0",
+            totalVolume: "0",
+            dailyActiveUsers: 0,
+            monthlyActiveUsers: 0,
+            impermanentLossProtectionPaid: 0,
+            poolReward: 0,
+            poolActivationCountdown: 0,
         }
         this.fetchData();
     }
@@ -27,17 +34,6 @@ export default class LiquidityPools extends React.Component {
         this.mounted = true; 
     }
 
-    // taken from: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
-    // for sorting liqudity pools by size
-    compare(a, b) {
-        if (Number(a.runeDepth) > Number(b.runeDepth)) {
-            return -1;;
-        }
-        if (Number(b.runeDepth) > Number(a.runeDepth)){
-            return 1;
-        }
-        return 0;
-      }
       
     fetchData = () => {
         const networkAPI = 'https://midgard.thorchain.info/v2/network';
@@ -66,19 +62,14 @@ export default class LiquidityPools extends React.Component {
                 const tvlData = allData[4].data;
                 const poolHistory = allData[5].data;
                 const poolsData = allData[6].data;
-                console.log(poolsData);
  
                 if (this.mounted) {
-                    // need to clean this up. Should keep values as they are for state and change how we show them, 
-                    //  rather than changing the stored values themselves
-                    const totalPooledRune = toMillionsString(torToRune(networkData.totalPooledRune));
-                    const dailyVolume = toMillions(torToRune(dailyVolumeData.intervals[0].totalVolume));
+                    const totalPooledRune = torToRune(networkData.totalPooledRune);
+                    const dailyVolume = torToRune(dailyVolumeData.intervals[0].totalVolume);
                     const runePrice = statsData.runePriceUSD;
-                    const totalVolume = (toMillions(torToRune(statsData.swapVolume * runePrice))/1000).toFixed(2) + "B";
-                    const liquidityAPY = roundToHundreths(toPercent(Number(networkData.liquidityAPY))) + "%";
-                    let totalValueLocked = torToRune(Number(networkData.bondMetrics.totalActiveBond) + Number(networkData.totalPooledRune)*2) * runePrice;
-                    totalValueLocked = "$" + toMillionsString(totalValueLocked);
-                    const impermanentLossProtectionPaid = "$" + Math.round(torToRune(Number(statsData.impermanentLossProtectionPaid))).toLocaleString();
+                    const totalVolume = torToRune(statsData.swapVolume * runePrice);
+                    const liquidityAPY = Number(networkData.liquidityAPY);
+                    const totalValueLocked = torToRune(Number(networkData.bondMetrics.totalActiveBond) + Number(networkData.totalPooledRune)*2) * runePrice;
 
                     // grab and format swap volume, total rune pooled, asset history, and price history
                     let swapVolume = [];
@@ -86,21 +77,17 @@ export default class LiquidityPools extends React.Component {
                     let depthHistory = [];
                     let priceHistory = [];
                     for (let i=0; i<swapsData.intervals.length; i++) {
-                        let volume = swapsData.intervals[i].totalVolume;
-                        let pooled = tvlData.intervals[i].totalValuePooled;
-                        let assetDepth = poolHistory.intervals[i].assetDepth;
-                        let assetPrice = poolHistory.intervals[i].assetPriceUSD
-                        volume = Math.round(torToRune(volume) * runePrice);
-                        pooled = Math.round(torToRune(pooled) * runePrice);
-                        assetDepth = torToRune(assetDepth).toFixed(2);
-                        assetPrice = Number(assetPrice).toFixed(2);
+                        let volume = torToRune(swapsData.intervals[i].totalVolume) * runePrice;
+                        let pooled = torToRune(tvlData.intervals[i].totalValuePooled) * runePrice;
+                        let assetDepth = torToRune(poolHistory.intervals[i].assetDepth);
+                        let assetPrice = poolHistory.intervals[i].assetPriceUSD;
                         swapVolume.push(volume);
                         totalValuePooled.push(pooled);
                         depthHistory.push(assetDepth);
                         priceHistory.push(assetPrice);
                     }
 
-                    poolsData.sort(this.compare);
+                    poolsData.sort(compareDepth);
 
                     // Data for pool depth pie chart
                     let assetNames = [];
@@ -135,28 +122,41 @@ export default class LiquidityPools extends React.Component {
                         }
                     }
 
+                    // info for metrics cards
+                    const dailyActiveUsers = Number(statsData.dailyActiveUsers);
+                    const monthlyActiveUsers = Number(statsData.monthlyActiveUsers);
+                    const uniqueSwapperCount = Number(statsData.uniqueSwapperCount);
+                    const impermanentLossProtectionPaid = torToRune(statsData.impermanentLossProtectionPaid);
+                    const poolReward = Number(networkData.blockRewards.poolReward);
+                    const poolActivationCountdown = networkData.poolActivationCountdown;
 
-                    this.setState({data: {
-                        "Total Pooled Rune": totalPooledRune, "Daily Volume": dailyVolume, "Total Volume": totalVolume,
-                        "Liquidity APY": liquidityAPY, "Total Value Locked": totalValueLocked,
-                        }, swapVolume, totalValuePooled, depthHistory, priceHistory,
-                        dailyActiveUsers: statsData.dailyActiveUsers, monthlyActiveUsers: statsData.monthlyActiveUsers, 
-                        uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
-                        poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown,
-                        assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, totalPooledRune: torToRune(networkData.totalPooledRune),
-                        activeAssetData, pendingAssetData
+
+                    this.setState({ totalPooledRune, dailyVolume, totalVolume, liquidityAPY, totalValueLocked, swapVolume, totalValuePooled, depthHistory, priceHistory,
+                        dailyActiveUsers, monthlyActiveUsers, uniqueSwapperCount, impermanentLossProtectionPaid, poolReward, poolActivationCountdown,
+                        assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, activeAssetData, pendingAssetData
                         })
                 }
             }
         ))
     };
 
+    getOverview = () => {
+        const totalPooledRune = toMillionsString(this.state.totalPooledRune);
+        const dailyVolume = toMillions(this.state.dailyVolume);
+        const totalVolume = (toMillions(this.state.totalVolume)/1000).toFixed(2) + "B";
+        const liquidityAPY = toPercentString(this.state.liquidityAPY);
+        const totalValueLocked = "$" + toMillionsString(this.state.totalValueLocked);
+        return (
+            <Overview data={{"Total Pooled Rune": totalPooledRune, "Daily Volume": dailyVolume,
+            "Total Volume": totalVolume, "Liquidity APY": liquidityAPY, "Total Value Locked": totalValueLocked}}  />
+        )
+    }
+
     render() {
         return (
             <div>
             <Header page="Liquidity Pools" />
-
-                <Overview data={this.state.data}  />
+                {this.getOverview()}
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={5}>
@@ -177,11 +177,11 @@ export default class LiquidityPools extends React.Component {
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                <LiquidityMetrics dailyActiveUsers={this.state.dailyActiveUsers} monthlyActiveUsers={this.state.monthlyActiveUsers}
-                    impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
-                    poolActivationCountdown={this.state.poolActivationCountdown} />
-                <Grid item xs={5}>
-                    {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
+                    <LiquidityMetrics dailyActiveUsers={this.state.dailyActiveUsers} monthlyActiveUsers={this.state.monthlyActiveUsers}
+                        impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
+                        poolActivationCountdown={this.state.poolActivationCountdown} /> 
+                    <Grid item xs={5}>
+                        {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
                         data={this.state.assetDominances} title="Asset Dominance"
                         assetTotalValues={this.state.assetTotalValues} assetAPYs={this.state.assetAPYs}
                         totalPooledRune={this.state.totalPooledRune} runePrice={this.state.runePrice} />}
