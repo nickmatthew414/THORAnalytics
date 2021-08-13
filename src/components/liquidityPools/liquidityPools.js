@@ -22,6 +22,10 @@ export default class LiquidityPools extends React.Component {
             totalVolume: "0",
             dailyActiveUsers: 0,
             monthlyActiveUsers: 0,
+            uniqueSwapperCount: 0,
+            swapCount24h: 0,
+            swapCount: 0,
+            addLiquidityCount: 0,
             impermanentLossProtectionPaid: 0,
             poolReward: 0,
             poolActivationCountdown: 0,
@@ -129,11 +133,14 @@ export default class LiquidityPools extends React.Component {
                     const impermanentLossProtectionPaid = torToRune(statsData.impermanentLossProtectionPaid);
                     const poolReward = Number(networkData.blockRewards.poolReward);
                     const poolActivationCountdown = networkData.poolActivationCountdown;
-
+                    const swapCount24h = Number(statsData.swapCount24h);
+                    const swapCount = Number(statsData.swapCount);
+                    const addLiquidityCount = Number(statsData.addLiquidityCount);
 
                     this.setState({ totalPooledRune, dailyVolume, totalVolume, liquidityAPY, totalValueLocked, swapVolume, totalValuePooled, depthHistory, priceHistory,
                         dailyActiveUsers, monthlyActiveUsers, uniqueSwapperCount, impermanentLossProtectionPaid, poolReward, poolActivationCountdown,
-                        assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, activeAssetData, pendingAssetData
+                        assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, activeAssetData, pendingAssetData,
+                        swapCount24h, swapCount, addLiquidityCount
                         })
                 }
             }
@@ -178,8 +185,9 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <LiquidityMetrics dailyActiveUsers={this.state.dailyActiveUsers} monthlyActiveUsers={this.state.monthlyActiveUsers}
-                        impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
-                        poolActivationCountdown={this.state.poolActivationCountdown} /> 
+                        uniqueSwapperCount={this.state.uniqueSwapperCount} impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
+                        poolActivationCountdown={this.state.poolActivationCountdown} swapCount24h={this.state.swapCount24h} swapCount={this.state.swapCount} 
+                        addLiquidityCount={this.state.addLiquidityCount} /> 
                     <Grid item xs={5}>
                         {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
                         data={this.state.assetDominances} title="Asset Dominance"

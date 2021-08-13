@@ -28,14 +28,18 @@ const useStyles = makeStyles({
 export default function PoolSizesTable(props) {
 
     const classes = useStyles();
+    // for calculating the depth of the rest of the pools
+    let otherDepth = props.totalPooledRune;
 
     const rowMaker = (name, i) => {
         let color = props.colors[i];
 
         const getDepth = (depth) => {
             if (name === "Other") {
-                return "---";
+                return toMillions(otherDepth * props.runePrice * 2).toFixed(2) + "M";
             }
+            // decrease otherDepth by depth of this pool
+            otherDepth = otherDepth - depth / props.runePrice;
             return toMillions(depth * 2).toFixed(2) + "M";
         }
 
@@ -66,8 +70,8 @@ export default function PoolSizesTable(props) {
             <TableHead>
             <TableRow className={classes.tableRow}>
                 <TableCell className={classes.tableCell}>Asset</TableCell>
-                <TableCell className={classes.tableCell} align="center">Depth</TableCell>
-                <TableCell className={classes.tableCell} align="center">APY</TableCell>
+                <TableCell className={classes.tableCell} align="left">Depth</TableCell>
+                <TableCell className={classes.tableCell} align="left">APY</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
