@@ -191,13 +191,13 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={10}>
-                    {this.state.assetNames && <PoolsTable tableData={this.state.activeAssetData} />}
+                    {this.state.assetNames && <PoolsTable tableData={this.state.activeAssetData} title={"Active Pools"} />}
                     </Grid>
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={10}>
-                    {this.state.assetNames && <PoolsTable tableData={this.state.pendingAssetData} />}
+                    {this.state.assetNames && <PoolsTable tableData={this.state.pendingAssetData} title={"Standby Pools"} />}
                     </Grid>
                 </Grid>
 

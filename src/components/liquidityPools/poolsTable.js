@@ -5,6 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
+import { Card, CardHeader } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles, makeStyles } from '@material-ui/core/Styles'
 import { toMillionsString, toPercentString, toPriceString } from '../../library/library';
@@ -68,6 +69,10 @@ export default function PoolsTable(props) {
     }
 
     return (
+      // backgroundColor: "#3B3F43"
+      <Card variant="outlined" style={{backgroundColor: "black", borderColor: "#1BE6C8"}}>
+      <CardHeader title={props.title} style={{color: "white", }} 
+          titleTypographyProps={{variant:'subtitle2'}} />
             <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
@@ -84,5 +89,6 @@ export default function PoolsTable(props) {
                 </TableBody>
             </Table>
         </TableContainer>
+      </Card>
     )
 }
