@@ -46,7 +46,6 @@ export default function LineGraph(props) {
           yAxes: [{
             ticks: {
                 beginAtZero: true,
-                maxTicksLimit: 3,
             },
           }],
           x: {

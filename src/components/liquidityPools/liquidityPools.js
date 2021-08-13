@@ -66,6 +66,7 @@ export default class LiquidityPools extends React.Component {
                 const tvlData = allData[4].data;
                 const poolHistory = allData[5].data;
                 const poolsData = allData[6].data;
+                console.log(poolsData);
  
                 if (this.mounted) {
                     // need to clean this up. Should keep values as they are for state and change how we show them, 
@@ -108,7 +109,8 @@ export default class LiquidityPools extends React.Component {
                     let assetDominances = [];
                     let assetAPYs = [];
                     let assetPrices = [];
-                    let assetData = [];
+                    let activeAssetData = [];
+                    let pendingAssetData = [];
                     for (let i=0; i<poolsData.length; i++) {
                         // asset comes in format CHAIN.ASSET-ADDRESS
                         const assetName = poolsData[i].asset.split("-")[0]
@@ -124,8 +126,13 @@ export default class LiquidityPools extends React.Component {
                         assetDominances.push(assetDominance);
                         assetAPYs.push(poolAPY);
                         assetPrices.push(assetPrice);
-                        assetData.push({"Asset": assetName, "Daily Volume": assetVolume,
+                        if (poolsData[i].status === "staged") {
+                            pendingAssetData.push({"Asset": assetName, "Daily Volume": assetVolume,
                             "Pool Depth": assetTotalValue, "Pool APY": poolAPY, "Price": assetPrice});
+                        } else {
+                            activeAssetData.push({"Asset": assetName, "Daily Volume": assetVolume,
+                            "Pool Depth": assetTotalValue, "Pool APY": poolAPY, "Price": assetPrice});
+                        }
                     }
 
 
@@ -137,7 +144,7 @@ export default class LiquidityPools extends React.Component {
                         uniqueSwapperCount: statsData.uniqueSwapperCount, impermanentLossProtectionPaid: impermanentLossProtectionPaid,
                         poolReward: networkData.blockRewards.poolReward, poolActivationCountdown: networkData.poolActivationCountdown,
                         assetNames, assetVolumes, assetTotalValues, assetDominances, assetAPYs, assetPrices, runePrice, totalPooledRune: torToRune(networkData.totalPooledRune),
-                        assetData
+                        activeAssetData, pendingAssetData
                         })
                 }
             }
@@ -184,7 +191,13 @@ export default class LiquidityPools extends React.Component {
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
                     <Grid item xs={10}>
-                    {this.state.assetNames && <PoolsTable tableData={this.state.assetData} />}
+                    {this.state.assetNames && <PoolsTable tableData={this.state.activeAssetData} />}
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={10}>
+                    {this.state.assetNames && <PoolsTable tableData={this.state.pendingAssetData} />}
                     </Grid>
                 </Grid>
 
