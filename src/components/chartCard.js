@@ -5,6 +5,7 @@ import NodeDistributionChart from './network/nodeDistribution';
 import SwapDistribution from './liquidityPools/swapsDistribution';
 import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
+import RuneDistribution from './rune/runeDistribution';
 
 
 export default class ChartCard extends React.Component {
@@ -23,7 +24,9 @@ export default class ChartCard extends React.Component {
             return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} 
             assetTotalValues={this.props.assetTotalValues} assetAPYs={this.props.assetAPYs}
             totalPooledRune={this.props.totalPooledRune} runePrice={this.props.runePrice} />
-
+        }
+        if (this.props.chart === "runeDistribution") {
+            return <RuneDistribution />
         }
         return <div></div>
     }
