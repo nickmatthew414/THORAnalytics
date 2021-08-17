@@ -26,7 +26,7 @@ export default class ChartCard extends React.Component {
             totalPooledRune={this.props.totalPooledRune} runePrice={this.props.runePrice} />
         }
         if (this.props.chart === "runeDistribution") {
-            return <RuneDistribution />
+            return <RuneDistribution max={this.props.max} data={this.props.data} total={this.props.total} />
         }
         return <div></div>
     }
