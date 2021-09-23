@@ -61,12 +61,7 @@ export default function RuneDistribution(props) {
               display: false
             },
             tooltip: {
-              callbacks: {
-                  label: function(context) { 
-                      let value = (Number(context.dataset.data[context.dataIndex]) * 100).toFixed(2)
-                      return `${context.label}: ${value}%`;
-                  }
-              }
+              enabled: false
           },
         }
       };
