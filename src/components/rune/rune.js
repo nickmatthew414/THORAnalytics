@@ -77,9 +77,11 @@ export default class LiquidityPools extends React.Component {
                     <Grid item xs={5}>
                     {this.state.nonUpgradedRune && <ChartCard chart="runeDistribution" data={[this.state.totalActiveBondedRune,
                         this.state.totalStandbyBondedRune, this.state.totalPooledRune, this.state.unusedNativeRune,
-                    this.state.nonUpgradedRune]} max={this.state.runeMaxSupply} total={this.state.runeTotalSupply} /> }
+                    this.state.nonUpgradedRune]} max={this.state.runeMaxSupply} total={this.state.runeTotalSupply} /> }                    
                     </Grid>
                     <Grid item xs={5}>
+
+                    <Grid item xs={5} />
                     </Grid>
                 </Grid>
 
