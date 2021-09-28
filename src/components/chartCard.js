@@ -6,7 +6,7 @@ import SwapDistribution from './liquidityPools/swapsDistribution';
 import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
 import RuneDistribution from './rune/runeDistribution';
-import RunePriceCalculator from './rune/runePriceCalculator';
+import RunePriceCalculator from './rune/runePriceGraph';
 
 
 export default class ChartCard extends React.Component {

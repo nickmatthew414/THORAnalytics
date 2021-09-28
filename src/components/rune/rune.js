@@ -4,7 +4,7 @@ import Header from '../header';
 import ChartCard from '../chartCard';
 import { Grid } from '@material-ui/core';
 import { torToRune } from '../../library/library';
-import RunePriceCalculator from './runePriceCalculator';
+import AssetColumn from '../assetColumn';
 
 
 export default class LiquidityPools extends React.Component {
@@ -92,6 +92,9 @@ export default class LiquidityPools extends React.Component {
                 <p>{this.state.runePrice}</p>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={1}>
+                        <AssetColumn/>
+                    </Grid>
                     <Grid item xs={5}>
                     {this.state.nonUpgradedRune && <ChartCard chart="runeDistribution" data={[this.state.totalActiveBondedRune,
                         this.state.totalStandbyBondedRune, this.state.totalPooledRune, this.state.unusedNativeRune,
@@ -102,8 +105,8 @@ export default class LiquidityPools extends React.Component {
                             <ChartCard chart="runePriceGraph" runePriceOverInterval={this.state.runePriceOverInterval}
                                 deterministicRunePriceOverInterval={this.state.deterministicRunePriceOverInterval}>
                             </ChartCard>}
-                    <Grid item xs={5} />
                     </Grid>
+                    <Grid item xs={1} />
                 </Grid>
 
             </div>

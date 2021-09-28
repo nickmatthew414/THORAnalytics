@@ -2,7 +2,7 @@ import React from 'react';
 import { Line, Chart } from 'react-chartjs-2';
 
 
-export default function RunePriceCalculator(props) {
+export default function RunePriceGraph(props) {
 
     Chart.defaults.color = "#FFFFFF";  // change text color to white
 
@@ -83,6 +83,6 @@ export default function RunePriceCalculator(props) {
         }
       };
 
-    return <Line data={data} options={options}/>
+    return <div style={{margin: "3%"}}><Line data={data} options={options}/></div>
 
 };

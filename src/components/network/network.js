@@ -10,6 +10,7 @@ import IncentivePendulum from './incentivePendulum';
 import ChainStatus from './chainsStatus';
 import NodeTable from './nodeTable';
 import BondHistory from './bondHistory';
+import AssetColumn from '../assetColumn';
 
 
 
@@ -128,12 +129,16 @@ export default class Network extends React.Component {
                 <Overview data={this.state.data} />
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={1}>
+                            <AssetColumn/>
+                    </Grid>
                     <Grid item xs={5}>
                     <ChartCard chart="nodeDistribution" data={this.state.activeBonds} title={"Active Node Bonds"} />
                     </Grid>
                     <Grid item xs={5}>
                     <ChartCard chart="nodeDistribution" data={this.state.standbyBonds} title={"Standby Node Bonds"}/>
                     </Grid>
+                    <Grid item xs={1} />
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>

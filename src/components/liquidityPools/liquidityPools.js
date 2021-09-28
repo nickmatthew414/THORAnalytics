@@ -7,7 +7,7 @@ import LiquidityMetrics from './liquidityMetrics';
 import PoolsTable from './poolsTable';
 import { torToRune, toMillions, toMillionsString, toPercentString, compareDepth } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
-
+import AssetColumn from '../assetColumn';
 
 export default class LiquidityPools extends React.Component {
 
@@ -166,12 +166,16 @@ export default class LiquidityPools extends React.Component {
                 {this.getOverview()}
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                    <Grid item xs={1}>
+                        <AssetColumn/>
+                    </Grid>
                     <Grid item xs={5}>
                     <ChartCard chart="lineGraph" data={this.state.totalValuePooled} title={"Total Value Pooled"} />
                     </Grid>
                     <Grid item xs={5}>
                     <ChartCard chart="liquidityDistribution" data={this.state.swapVolume} title={"Swap Volume"}/>
                     </Grid>
+                    <Grid item xs={1}/>
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
