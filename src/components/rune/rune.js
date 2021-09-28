@@ -4,6 +4,7 @@ import Header from '../header';
 import ChartCard from '../chartCard';
 import { Grid } from '@material-ui/core';
 import { torToRune } from '../../library/library';
+import RunePriceCalculator from './runePriceCalculator';
 
 
 export default class LiquidityPools extends React.Component {
@@ -16,7 +17,7 @@ export default class LiquidityPools extends React.Component {
         }
         this.fetchData();
         // https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
-        console.log(process.env.REACT_APP_COIN_MARKET_CAP);
+        // console.log(process.env.REACT_APP_COIN_MARKET_CAP);
     }
 
     componentDidMount() { 
@@ -28,18 +29,21 @@ export default class LiquidityPools extends React.Component {
         const globalStatsAPI = 'https://midgard.thorchain.info/v2/stats';
         const networkDataAPI = 'https://midgard.thorchain.info/v2/network';
         const poolsDataAPI = 'https://midgard.thorchain.info/v2/pools';
+        const tvlDataAPI = 'https://midgard.thorchain.info/v2/history/tvl?interval=day&count=30';
         // const config = {'Authorization': `Basic ${process.env.REACT_APP_COIN_MARKET_CAP}`};
         // const thorchainSupplyAPI = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?slug=bitcoin';
 
         const getGlobalStats = axios.get(globalStatsAPI);
         const getNetworkData = axios.get(networkDataAPI);
         const getPoolsData = axios.get(poolsDataAPI);
+        const getTVLData = axios.get(tvlDataAPI);
         // const getThorchainSupplyData = axios.get(thorchainSupplyAPI, {headers: config});
-        axios.all([getGlobalStats, getNetworkData, getPoolsData]).then(
+        axios.all([getGlobalStats, getNetworkData, getPoolsData, getTVLData]).then(
             axios.spread((...allData) => {
                 const globalStatsData = allData[0].data;
                 const networkData = allData[1].data;
                 const poolsData = allData[2].data;
+                const tvlData = allData[3].data;
 
                 let totalNoneRuneTVL = 0;
                 for (let i=0; i<poolsData.length; i++) {
@@ -58,9 +62,23 @@ export default class LiquidityPools extends React.Component {
                 const deterministicRune = 3* totalNoneRuneTVL / runeTotalSupply;
                 const noncirculatingSupply = runeMaxSupply - runeTotalSupply;
 
+                // grabbing runePrice and deterministic RUNE price for the returned interval for line graph
+                let runePriceOverInterval = []
+                let deterministicRunePriceOverInterval = []
+                
+                for (let i=0; i<tvlData.intervals.length; i++) {
+                    runePriceOverInterval.push(Number(tvlData.intervals[i].runePriceUSD));
+
+                    // multiply by runePrice since the TVP is quoted in rune
+                    // divide by 2 for just non-rune in pools
+                    const totalNonRunePooled = (torToRune(tvlData.intervals[i].totalValuePooled) * runePrice) / 2;
+                    const deterministicRunePrice = 3 * totalNonRunePooled / runeTotalSupply;
+                    deterministicRunePriceOverInterval.push(deterministicRunePrice);  
+                }
+
                 if (this.mounted) {
                     this.setState({totalNoneRuneTVL, switchedRune, runePrice, totalActiveBondedRune, totalStandbyBondedRune, totalPooledRune, 
-                    runeTotalSupply, runeMaxSupply, unusedNativeRune, nonUpgradedRune, noncirculatingSupply});
+                    runeTotalSupply, runeMaxSupply, unusedNativeRune, nonUpgradedRune, noncirculatingSupply, runePriceOverInterval, deterministicRunePriceOverInterval});
                 }
             })
         )
@@ -80,7 +98,10 @@ export default class LiquidityPools extends React.Component {
                     this.state.nonUpgradedRune]} max={this.state.runeMaxSupply} total={this.state.runeTotalSupply} /> }                    
                     </Grid>
                     <Grid item xs={5}>
-
+                        {this.state.runePriceOverInterval && 
+                            <ChartCard chart="runePriceGraph" runePriceOverInterval={this.state.runePriceOverInterval}
+                                deterministicRunePriceOverInterval={this.state.deterministicRunePriceOverInterval}>
+                            </ChartCard>}
                     <Grid item xs={5} />
                     </Grid>
                 </Grid>

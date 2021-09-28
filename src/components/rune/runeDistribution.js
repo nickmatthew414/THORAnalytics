@@ -35,7 +35,6 @@ export default function RuneDistribution(props) {
       return {"value": e, "label": labels[i], "color": backgroundColors[i], "info": toolTipInfo[i]};
     });
     tableData.sort(sortDistribution)
-    console.log(tableData)
 
 
     const data = {
