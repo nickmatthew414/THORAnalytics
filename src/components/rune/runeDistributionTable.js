@@ -72,6 +72,7 @@ export default function RuneDistributionTable(props) {
             <TableRow className={classes.tableRow}>
                 <TableCell className={classes.tableCell}>Asset</TableCell>
                 <TableCell className={classes.tableCell} align="left">Percentage</TableCell>
+                <TableCell />
             </TableRow>
             </TableHead>
             <TableBody>
