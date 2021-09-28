@@ -83,6 +83,5 @@ export default function RunePriceGraph(props) {
         }
       };
 
-    return <div style={{margin: "3%"}}><Line data={data} options={options}/></div>
-
+    return <Line data={data} options={options}/>
 };

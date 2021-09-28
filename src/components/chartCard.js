@@ -6,7 +6,7 @@ import SwapDistribution from './liquidityPools/swapsDistribution';
 import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
 import RuneDistribution from './rune/runeDistribution';
-import RunePriceCalculator from './rune/runePriceGraph';
+import RunePriceCard from './rune/runePriceCard';
 
 
 export default class ChartCard extends React.Component {
@@ -30,7 +30,7 @@ export default class ChartCard extends React.Component {
             return <RuneDistribution max={this.props.max} data={this.props.data} total={this.props.total} />
         }
         if (this.props.chart === "runePriceGraph") {
-            return <RunePriceCalculator runePriceOverInterval={this.props.runePriceOverInterval} 
+            return <RunePriceCard runePriceOverInterval={this.props.runePriceOverInterval} 
                 deterministicRunePriceOverInterval={this.props.deterministicRunePriceOverInterval} />
 
         }
