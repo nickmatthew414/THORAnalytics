@@ -12,6 +12,10 @@ export function compareDepth(a, b) {
     return 0;
 }
 
+export function timesMillion(value) {
+    return value * 1000000;
+}
+
 export function torToRune(tor) {
     return tor / 100000000;
 }

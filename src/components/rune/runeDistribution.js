@@ -67,7 +67,7 @@ export default function RuneDistribution(props) {
 
     return (
       <div style={{display: "flex", margin: "2%", gap: "2%", alignItems: "center"}}>
-        <div style={{position: "relative", height: "20vw", width: "20vw"}}>
+        <div style={{position: "relative"}}>
           <Doughnut data={data} options={options} />
         </div>
         <RuneDistributionTable tableData={tableData} />

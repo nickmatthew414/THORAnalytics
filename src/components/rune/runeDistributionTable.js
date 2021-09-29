@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Tooltip, { tooltipClasses } from '@material-ui/core/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 import { toPercentString } from '../../library/library';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Zoom from '@material-ui/core/Zoom';
@@ -19,11 +19,8 @@ const useStyles = makeStyles({
     },
     tableCell: {
         fontSize: ".8vw",
-        padding: "2px 10px",
-        color: "white"
-    },
-    tableRow: {
-        height: 20,
+        padding: "2px 5px",
+        color: "white",
     }
   });
 
@@ -55,7 +52,7 @@ export default function RuneDistributionTable(props) {
                 <TableCell className={classes.tableCell} align="left">
                     {toPercentString(data.value)}
                 </TableCell>
-                <TableCell style={{width: "10%"}}>
+                <TableCell>
                     <LightTooltip title={data.info} placement="right" TransitionComponent={Zoom}>
                         <InfoOutlinedIcon style={{fontSize: "12px", color: "yellow"}} />
                     </ LightTooltip>
@@ -69,7 +66,7 @@ export default function RuneDistributionTable(props) {
         <TableContainer className={classes.paper} component={Paper}>
         <Table>
             <TableHead>
-            <TableRow className={classes.tableRow}>
+            <TableRow>
                 <TableCell className={classes.tableCell}>Asset</TableCell>
                 <TableCell className={classes.tableCell} align="left">Percentage</TableCell>
                 <TableCell />
