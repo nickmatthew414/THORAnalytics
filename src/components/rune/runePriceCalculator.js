@@ -7,6 +7,8 @@ import { green } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { timesMillion, toPriceString } from '../../library/library';
+import InfoIcon from '../infoIcon';
+import Typography from '@material-ui/core/Typography';
 
 
 const theme = createTheme({
@@ -49,7 +51,7 @@ function CustomTextField(props) {
 
 export default function RunePriceCalculator(props) {
 
-    const [runeSupply, setRuneSupply] = React.useState('Fully Diluted');
+    const [runeSupply, setRuneSupply] = React.useState('Circulating Rune Supply');
     const [speculativeMultiplier, setSpeculativeMultiplier] = React.useState(1);
     const [runePrice, setRunePrice] = React.useState(null);
     const [deterministicPrice, setDeterministicPrice] = React.useState(null);
@@ -86,16 +88,23 @@ export default function RunePriceCalculator(props) {
 
     return (
         <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column"}}>
-        <CardHeader title="Rune Price Calculator" style={{color: "white", }} 
+        <CardHeader title={
+            <Box display="flex" justifyItems="center" style={{gap: "1%"}}>
+            <Typography variant="subtitle2">Rune Price Calculator</Typography>
+            <InfoIcon info="Calculator for Deterministic and Market Price of Rune.
+                            Deterministic Price is approximated as (3 x Non-Rune TVL) / Rune Supply" fontSize="1.5vw"/>
+            </Box>
+        }
+        style={{color: "white", }} 
                 titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
         <Box display="flex" alignItems="center" justifyContent="space-between" style={{margin: "0% 2% 2% 2%"}}>
 
-            <TextField type="number" id="tvl" 
+            <CustomTextField type="number" id="tvl" 
             label="Non-Rune TVL (M)" 
             value={TVL}
             onChange={handleTVL} 
-            variant="outlined" />
-            <TextField
+            variant="filled" />
+            <CustomTextField
                 id="rune_supply"
                 select
                 label="Rune Supply"
@@ -110,13 +119,13 @@ export default function RunePriceCalculator(props) {
               {option}
             </option>
             ))}
-            </TextField>
+            </CustomTextField>
 
-            <TextField type="number" id="speculative_multiplier"
+            <CustomTextField type="number" id="speculative_multiplier"
                 label="Speculative Multiplier" 
                 value={speculativeMultiplier}
                 onChange={handleSpeculativeMultiplier} 
-                variant="outlined" />
+                variant="filled" />
 
             <Button variant="contained" color="primary" onClick={calculateRuneValue}>
                 Calculate

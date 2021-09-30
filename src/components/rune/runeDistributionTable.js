@@ -10,8 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import { toPercentString } from '../../library/library';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import Zoom from '@material-ui/core/Zoom';
+import InfoIcon from '../infoIcon';
+
 
 const useStyles = makeStyles({
     paper: {
@@ -53,9 +53,10 @@ export default function RuneDistributionTable(props) {
                     {toPercentString(data.value)}
                 </TableCell>
                 <TableCell>
-                    <LightTooltip title={data.info} placement="right" TransitionComponent={Zoom}>
+                    <InfoIcon info={data.info} fontSize="12px" />
+                    {/* <LightTooltip title={data.info} placement="right" TransitionComponent={Zoom}>
                         <InfoOutlinedIcon style={{fontSize: "12px", color: "yellow"}} />
-                    </ LightTooltip>
+                    </ LightTooltip> */}
                 </TableCell>
             </TableRow>
         )
