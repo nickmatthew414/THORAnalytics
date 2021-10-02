@@ -8,25 +8,16 @@ import AssetColumn from '../assetColumn';
 import RunePriceCalculator from './runePriceCalculator';
 
 
-export default class LiquidityPools extends React.Component {
+export default function LiquidityPools(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            switchedRune: 0,
-            runePrice: 0,
-        }
-        this.fetchData();
-        // https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
-        // console.log(process.env.REACT_APP_COIN_MARKET_CAP);
-    }
+    const [state, setState] = React.useState({
+        switchedRune: 0,
+        runePrice: 0,
+    })
 
-    componentDidMount() { 
-        this.mounted = true; 
-    }
+    React.useEffect(() => {
 
 
-    fetchData = () => {
         const globalStatsAPI = 'https://midgard.thorchain.info/v2/stats';
         const networkDataAPI = 'https://midgard.thorchain.info/v2/network';
         const poolsDataAPI = 'https://midgard.thorchain.info/v2/pools';
@@ -77,48 +68,69 @@ export default class LiquidityPools extends React.Component {
                     deterministicRunePriceOverInterval.push(deterministicRunePrice);  
                 }
 
-                if (this.mounted) {
-                    this.setState({totalNoneRuneTVL, switchedRune, runePrice, totalActiveBondedRune, totalStandbyBondedRune, totalPooledRune, 
+                    setState({totalNoneRuneTVL, switchedRune, runePrice, totalActiveBondedRune, totalStandbyBondedRune, totalPooledRune, 
                     runeTotalSupply, runeMaxSupply, unusedNativeRune, nonUpgradedRune, noncirculatingSupply, runePriceOverInterval, deterministicRunePriceOverInterval});
-                }
             })
         )
-    }
+    }, []);
 
-    render() {
-        return (
-            <div>
-                <Header page="RUNE" />
-                <p>{this.state.switchedRune}</p>
-                <p>{this.state.runePrice}</p>
+    return (
+        <div>
+            <Header page="RUNE" />
 
-                <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={1}>
-                        <AssetColumn/>
-                    </Grid>
-                    <Grid item xs={5}>
-                    {this.state.nonUpgradedRune && <ChartCard title="Rune Distribution" chart="runeDistribution" data={[this.state.totalActiveBondedRune,
-                        this.state.totalStandbyBondedRune, this.state.totalPooledRune, this.state.unusedNativeRune,
-                    this.state.nonUpgradedRune]} max={this.state.runeMaxSupply} total={this.state.runeTotalSupply} /> }                    
-                    </Grid>
-                    <Grid item xs={5}>
-                        {this.state.runePriceOverInterval && 
-                            <ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={this.state.runePriceOverInterval}
-                                deterministicRunePriceOverInterval={this.state.deterministicRunePriceOverInterval}>
-                            </ChartCard>}
-                        <ChartCard style={{marginTop: "2%"}}/>
-                    </Grid>
-                    <Grid item xs={1} />
+            <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+                <Grid item xs={1}>
+                    <AssetColumn/>
+                </Grid>
+                <Grid item xs={5}>
+                {state.nonUpgradedRune && <ChartCard title="Rune Distribution" chart="runeDistribution" data={[state.totalActiveBondedRune,
+                    state.totalStandbyBondedRune, state.totalPooledRune, state.unusedNativeRune,
+                state.nonUpgradedRune]} max={state.runeMaxSupply} total={state.runeTotalSupply} /> }                    
+                </Grid>
+                <Grid item xs={5}>
+                    {state.runePriceOverInterval && 
+                        <ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
+                            deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval}>
+                        </ChartCard>}
+                    <ChartCard style={{marginTop: "2%"}}/>
+                </Grid>
+                <Grid item xs={1} />
+            </Grid>
+
+            <Grid container spacing ={2} justifyContent="center" style={{marginTop: "2%"}}>
+                <Grid item xs={10}>
+                    <RunePriceCalculator title="Rune Price Calculator" />
                 </Grid>
 
-                <Grid container spacing ={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={10}>
-                        <RunePriceCalculator title="Rune Price Calculator" />
-                    </Grid>
+            </Grid>
 
-                </Grid>
-
-            </div>
-        )
-    }
+        </div>
+    )
 }
+
+
+
+// temporarily placed here for testing:
+function useWindowSize() {
+    const [windowSize, setWindowSize] = React.useState({
+      width: undefined,
+      height: undefined,
+    });
+    React.useEffect(() => {
+      // Handler to call on window resize
+      function handleResize() {
+        // Set window width/height to state
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      // Add event listener
+      window.addEventListener("resize", handleResize);
+      // Call handler right away so state gets updated with initial window size
+      handleResize();
+      // Remove event listener on cleanup
+      return () => window.removeEventListener("resize", handleResize);
+    }, []); // Empty array ensures that effect is only run on mount
+    return windowSize;
+  }
