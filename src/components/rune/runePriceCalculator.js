@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import { timesMillion, toPriceString } from '../../library/library';
 import InfoIcon from '../infoIcon';
 import Typography from '@material-ui/core/Typography';
+import '../../styles/sass/main.scss';
 
 
 const theme = createTheme({
@@ -33,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.primary.main,
         },
     },
+    card: {
+        backgroundColor: "#3B3F43",
+        borderColor: "#1BE6C8",
+        display: "flex",
+        flexDirection: "column",
+    },
     focused: {},
 }));
 
@@ -53,8 +60,8 @@ export default function RunePriceCalculator(props) {
 
     const [runeSupply, setRuneSupply] = React.useState('Circulating Rune Supply');
     const [speculativeMultiplier, setSpeculativeMultiplier] = React.useState(1);
-    const [runePrice, setRunePrice] = React.useState(null);
-    const [deterministicPrice, setDeterministicPrice] = React.useState(null);
+    const [runePrice, setRunePrice] = React.useState("");
+    const [deterministicPrice, setDeterministicPrice] = React.useState("");
     const [TVL, setTVL] = React.useState(100); // TVL will be calculated in millions
     const classes = useStyles();
 
@@ -83,21 +90,19 @@ export default function RunePriceCalculator(props) {
         setDeterministicPrice(toPriceString(dPrice));
         setRunePrice(toPriceString(rPrice));
 
-
     }
 
     return (
-        <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column"}}>
+        <Card variant="outlined" className={classes.card} >
         <CardHeader title={
-            <Box display="flex" justifyItems="center" style={{gap: "1%"}}>
+            // <Box display="flex" justifyItems="center" className={styles.cardHeaderBox}>
+            <Box display="flex" justifyItems="center" className="cardHeaderBox">
             <Typography variant="subtitle2">Rune Price Calculator</Typography>
             <InfoIcon info="Calculator for Deterministic and Market Price of Rune.
                             Deterministic Price is approximated as (3 x Non-Rune TVL) / Rune Supply" fontSize="1.5vw"/>
             </Box>
-        }
-        style={{color: "white", }} 
-                titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
-        <Box display="flex" alignItems="center" justifyContent="space-between" style={{margin: "0% 2% 2% 2%"}}>
+        } titleTypographyProps={{variant:'subtitle2'}} className="cardHeader"></CardHeader>
+        <Box display="flex" alignItems="center" justifyContent="space-between" className="textFieldsBox">
 
             <CustomTextField type="number" id="tvl" 
             label="Non-Rune TVL (M)" 
@@ -131,7 +136,7 @@ export default function RunePriceCalculator(props) {
                 Calculate
             </Button>
 
-            <Box display="flex" flexDirection="column" style={{gap: "5px"}}>
+            <Box display="flex" flexDirection="column" className="resultsBox">
             <CustomTextField
                     label="Rune Price"
                     className={classes.margin}
@@ -148,7 +153,6 @@ export default function RunePriceCalculator(props) {
             />
             </Box>
         </Box>
-
 
         </Card>
     )
