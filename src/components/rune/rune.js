@@ -6,17 +6,41 @@ import { Grid } from '@material-ui/core';
 import { torToRune } from '../../library/library';
 import AssetColumn from '../assetColumn';
 import RunePriceCalculator from './runePriceCalculator';
+import { makeStyles } from '@material-ui/core/styles';
+import '../../styles/sass/main.scss';
+
+
+const useStyles = makeStyles({
+    grid: {
+        marginTop: "2%"
+    }
+  });
+
 
 
 export default function LiquidityPools(props) {
 
+    // const size = useWindowSize();
+    const styles = useStyles();
     const [state, setState] = React.useState({
         switchedRune: 0,
         runePrice: 0,
+        totalNoneRuneTVL: 0, 
+        switchedRune: 0,
+        runePrice: 0,
+        totalActiveBondedRune: 0,
+        totalStandbyBondedRune: 0,
+        totalPooledRune: 0,
+        runeTotalSupply: 0, 
+        runeMaxSupply: 0, 
+        unusedNativeRune: 0,
+        nonUpgradedRune: 0,
+        noncirculatingSupply: 0,
+        runePriceOverInterval: 0,
+        deterministicRunePriceOverInterval: 0,
     })
 
     React.useEffect(() => {
-
 
         const globalStatsAPI = 'https://midgard.thorchain.info/v2/stats';
         const networkDataAPI = 'https://midgard.thorchain.info/v2/network';
@@ -78,7 +102,7 @@ export default function LiquidityPools(props) {
         <div>
             <Header page="RUNE" />
 
-            <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
+            <Grid container spacing={2} justifyContent="center" className={styles.grid}>
                 <Grid item xs={1}>
                     <AssetColumn/>
                 </Grid>
@@ -92,12 +116,12 @@ export default function LiquidityPools(props) {
                         <ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
                             deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval}>
                         </ChartCard>}
-                    <ChartCard style={{marginTop: "2%"}}/>
+                    <ChartCard className={styles.grid} />
                 </Grid>
                 <Grid item xs={1} />
             </Grid>
 
-            <Grid container spacing ={2} justifyContent="center" style={{marginTop: "2%"}}>
+            <Grid container spacing ={2} justifyContent="center" className={styles.grid}>
                 <Grid item xs={10}>
                     <RunePriceCalculator title="Rune Price Calculator" />
                 </Grid>
@@ -110,8 +134,9 @@ export default function LiquidityPools(props) {
 
 
 
-// temporarily placed here for testing:
 function useWindowSize() {
+    // Initialize state with undefined width/height so server and client renders match
+    // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
     const [windowSize, setWindowSize] = React.useState({
       width: undefined,
       height: undefined,
@@ -134,3 +159,4 @@ function useWindowSize() {
     }, []); // Empty array ensures that effect is only run on mount
     return windowSize;
   }
+  

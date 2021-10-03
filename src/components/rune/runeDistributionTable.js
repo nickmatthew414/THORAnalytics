@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import { toPercentString } from '../../library/library';
 import InfoIcon from '../infoIcon';
+import "../../styles/sass/main.scss";
 
 
 const useStyles = makeStyles({
@@ -44,7 +45,7 @@ export default function RuneDistributionTable(props) {
         return (
             <TableRow key={i}>
                 <TableCell className={classes.tableCell} component="th" scope="row">
-                <div style={{display: "flex", justifyContent: "flex-start"}}>
+                <div className="infoIcon">
                     <FiberManualRecordIcon style={{fill: data.color, width: "1vw", height: "1vw"}}></FiberManualRecordIcon>
                     &nbsp;{data.label}
                 </div>
@@ -54,9 +55,6 @@ export default function RuneDistributionTable(props) {
                 </TableCell>
                 <TableCell>
                     <InfoIcon info={data.info} fontSize="12px" />
-                    {/* <LightTooltip title={data.info} placement="right" TransitionComponent={Zoom}>
-                        <InfoOutlinedIcon style={{fontSize: "12px", color: "yellow"}} />
-                    </ LightTooltip> */}
                 </TableCell>
             </TableRow>
         )

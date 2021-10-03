@@ -8,11 +8,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { toPriceString, roundToHundreths } from '../../library/library';
+import "../../styles/sass/main.scss";
 
 
 const useStyles = makeStyles({
     paper: {
         backgroundColor: 'transparent',
+        width: "20%",
     },
     tableCell: {
         fontSize: ".8vw",
@@ -31,13 +33,13 @@ export default function RunePriceCard(props) {
     const speculativeMultiplier = runePrice / deterministicRunePrice;
 
     return (
-        <Box display="flex" style={{gap: "2%", margin: "3%"}}>
-        <div style={{position: "relative", width: "80%"}}>
+        <Box display="flex" className="priceBox">
+        <div className="priceGraph">
         <RunePriceGraph runePriceOverInterval={props.runePriceOverInterval} 
                 deterministicRunePriceOverInterval={props.deterministicRunePriceOverInterval} />
         </div>
 
-        <TableContainer className={classes.paper} component={Paper} style={{width: "20%"}}>
+        <TableContainer className={classes.paper} component={Paper}>
         <Table>
             <TableBody>
             <TableRow key={1} >

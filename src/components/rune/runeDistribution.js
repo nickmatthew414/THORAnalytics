@@ -1,6 +1,7 @@
 import React from 'react';
 import { Doughnut, Chart } from 'react-chartjs-2';
 import RuneDistributionTable from './runeDistributionTable';
+import "../../styles/sass/main.scss";
 
 
 // sort distribution for table display. Highest values are displayed at top of the table
@@ -66,8 +67,8 @@ export default function RuneDistribution(props) {
       };
 
     return (
-      <div style={{display: "flex", margin: "2%", gap: "2%", alignItems: "center"}}>
-        <div style={{position: "relative"}}>
+      <div className="graphChartCard">
+        <div className="graph">
           <Doughnut data={data} options={options} />
         </div>
         <RuneDistributionTable tableData={tableData} />

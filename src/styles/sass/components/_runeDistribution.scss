@@ -1,0 +1,19 @@
+
+.graphChartCard {
+    margin: 2%;
+}
+
+@media (min-width: 730px) {
+    .graphChartCard {
+        display: flex;
+        margin: 2%;
+        gap: 2%;
+        align-items: center;
+    }
+}
+
+.graph {
+    position: relative;
+    height: 90%;
+    width: 90%;
+}
