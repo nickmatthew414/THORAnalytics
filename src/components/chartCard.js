@@ -40,7 +40,7 @@ export default function ChartCard(props) {
             totalPooledRune={props.totalPooledRune} runePrice={props.runePrice} />
         }
         if (props.chart === "runeDistribution") {
-            return <RuneDistribution max={props.max} data={props.data} total={props.total} />
+            return <RuneDistribution max={props.max} data={props.data} total={props.total} windowSize={props.windowSize} />
         }
         if (props.chart === "runePriceGraph") {
             return <RunePriceCard runePriceOverInterval={props.runePriceOverInterval} 

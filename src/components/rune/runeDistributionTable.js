@@ -39,6 +39,36 @@ const useStyles = makeStyles({
 export default function RuneDistributionTable(props) {
 
     const classes = useStyles();
+    const tableInfoColumnThreshold = 1200;
+
+    // return third row if window width is above 700px
+    const returnTableCells = () => {
+        if (props.windowSize.width > tableInfoColumnThreshold) {
+           return (
+            <TableRow>
+            <TableCell className={classes.tableCell} >Asset</TableCell>
+            <TableCell className={classes.tableCell} align="left">Percentage</TableCell>
+            <TableCell />
+            </TableRow>
+           )
+        }
+        return (
+                <TableRow>
+                <TableCell className={classes.tableCell} >Asset</TableCell>
+                <TableCell className={classes.tableCell} align="left">Percentage</TableCell>
+                </TableRow> 
+        )
+    }
+
+    const returnInfoIcons = (data) => {
+        if (props.windowSize.width > tableInfoColumnThreshold) {
+            return (<TableCell>
+            <InfoIcon info={data.info} fontSize="12px" />
+            </TableCell>)
+        }
+        return <div></div>
+
+    }
 
     const rowMaker = (data, i) => {
 
@@ -53,9 +83,7 @@ export default function RuneDistributionTable(props) {
                 <TableCell className={classes.tableCell} align="left">
                     {toPercentString(data.value)}
                 </TableCell>
-                <TableCell>
-                    <InfoIcon info={data.info} fontSize="12px" />
-                </TableCell>
+                {returnInfoIcons(data)}
             </TableRow>
         )
         
@@ -65,11 +93,7 @@ export default function RuneDistributionTable(props) {
         <TableContainer className={classes.paper} component={Paper}>
         <Table>
             <TableHead>
-            <TableRow>
-                <TableCell className={classes.tableCell}>Asset</TableCell>
-                <TableCell className={classes.tableCell} align="left">Percentage</TableCell>
-                <TableCell />
-            </TableRow>
+                {returnTableCells()}
             </TableHead>
             <TableBody>
             {props.tableData.map((data, i) => (

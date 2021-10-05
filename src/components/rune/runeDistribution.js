@@ -15,6 +15,7 @@ function sortDistribution(a, b) {
   return 0;
 }
 
+
 export default function RuneDistribution(props) {
 
     Chart.defaults.color = "#FFFFFF";  // change text color to white
@@ -71,7 +72,7 @@ export default function RuneDistribution(props) {
         <div className="graph">
           <Doughnut data={data} options={options} />
         </div>
-        <RuneDistributionTable tableData={tableData} />
+        <RuneDistributionTable windowSize={props.windowSize} tableData={tableData} />
       </div>
     )
 }

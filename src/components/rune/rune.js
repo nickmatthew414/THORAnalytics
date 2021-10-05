@@ -20,8 +20,8 @@ const useStyles = makeStyles({
 
 export default function LiquidityPools(props) {
 
-    // const size = useWindowSize();
     const styles = useStyles();
+    const windowSize = useWindowSize(); 
     const [state, setState] = React.useState({
         switchedRune: 0,
         runePrice: 0,
@@ -107,15 +107,14 @@ export default function LiquidityPools(props) {
                     <AssetColumn/>
                 </Grid>
                 <Grid item xs={5}>
-                {state.nonUpgradedRune && <ChartCard title="Rune Distribution" chart="runeDistribution" data={[state.totalActiveBondedRune,
-                    state.totalStandbyBondedRune, state.totalPooledRune, state.unusedNativeRune,
-                state.nonUpgradedRune]} max={state.runeMaxSupply} total={state.runeTotalSupply} /> }                    
+                {state.nonUpgradedRune && (<ChartCard title="Rune Distribution" chart="runeDistribution" data={[state.totalActiveBondedRune,
+                state.totalStandbyBondedRune, state.totalPooledRune, state.unusedNativeRune,
+                state.nonUpgradedRune]} max={state.runeMaxSupply} total={state.runeTotalSupply} windowSize={windowSize}/>) }                    
                 </Grid>
                 <Grid item xs={5}>
-                    {state.runePriceOverInterval && 
-                        <ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
-                            deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval}>
-                        </ChartCard>}
+                    {state.runePriceOverInterval && (<ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
+                        deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval} >
+                        </ChartCard>)}
                     <ChartCard className={styles.grid} />
                 </Grid>
                 <Grid item xs={1} />
@@ -125,6 +124,7 @@ export default function LiquidityPools(props) {
                 <Grid item xs={10}>
                     <RunePriceCalculator title="Rune Price Calculator" />
                 </Grid>
+                <p style={{color: "white", fontSize: "25px"}}>{windowSize.width}</p>
 
             </Grid>
 
@@ -133,10 +133,12 @@ export default function LiquidityPools(props) {
 }
 
 
-
+// This function includes an ugly solution for preventing the Chart JS graphs from animating after
+// the initial render (since React.memo() was giving me problems). While it records the windowsize,
+// it also records that the graphs have already rendered so that we can pass props to the graphs to 
+// tell them to not reanimate.
 function useWindowSize() {
-    // Initialize state with undefined width/height so server and client renders match
-    // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+
     const [windowSize, setWindowSize] = React.useState({
       width: undefined,
       height: undefined,
@@ -150,13 +152,14 @@ function useWindowSize() {
           height: window.innerHeight,
         });
       }
-      // Add event listener
+      
       window.addEventListener("resize", handleResize);
       // Call handler right away so state gets updated with initial window size
       handleResize();
       // Remove event listener on cleanup
       return () => window.removeEventListener("resize", handleResize);
     }, []); // Empty array ensures that effect is only run on mount
+    // return windowSize, hasRendered;
     return windowSize;
   }
   

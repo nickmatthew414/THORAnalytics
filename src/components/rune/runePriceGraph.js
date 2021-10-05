@@ -5,6 +5,7 @@ import { Line, Chart } from 'react-chartjs-2';
 export default function RunePriceGraph(props) {
 
     Chart.defaults.color = "#FFFFFF";  // change text color to white
+    console.log(props.chartHasRendered)
 
     let date = new Date();
     let labels = [];
