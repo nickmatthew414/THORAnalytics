@@ -4,18 +4,16 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 
-export default class OverviewCard extends React.Component {
+export default function OverviewCard(props) {
 
-    render() {
-        return (
-                <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column", alignItems: "center"}}>
-                    <CardHeader title={this.props.title} style={{color: "white", }} 
-                        titleTypographyProps={{variant:'subtitle2'}}>
-                    </CardHeader>
-                    <CardContent style={{color: "white"}}>
-                        {this.props.value}
-                    </CardContent>
-                </Card>
-        )
-    }
+    return (
+            <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                <CardHeader title={props.title} style={{color: "white", }} 
+                    titleTypographyProps={{variant:'subtitle2'}}>
+                </CardHeader>
+                <CardContent style={{color: "white"}}>
+                    {props.value}
+                </CardContent>
+            </Card>
+    )
 }

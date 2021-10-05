@@ -7,43 +7,54 @@ import PoolSizesChart from './liquidityPools/poolSizes';
 import LineGraph from './liquidityPools/lineGraph';
 import RuneDistribution from './rune/runeDistribution';
 import RunePriceCard from './rune/runePriceCard';
+import "../styles/sass/main.scss";
+import { makeStyles } from '@material-ui/core/styles';
 
 
-export default class ChartCard extends React.Component {
+const useStyles = makeStyles({
+    card: {
+        backgroundColor: "#3B3F43",
+        borderColor: "#1BE6C8",
+        display: "flex",
+        flexDirection: "column"
+    },
+});
 
-    returnChart = () => {
-        if (this.props.chart === "nodeDistribution") {
-            return <NodeDistributionChart data={this.props.data} title={this.props.title} />
+
+export default function ChartCard(props) {
+
+    const classes = useStyles();
+    const returnChart = () => {
+        if (props.chart === "nodeDistribution") {
+            return <NodeDistributionChart data={props.data} title={props.title} />
         }
-        if (this.props.chart === "liquidityDistribution") {
-            return <SwapDistribution data={this.props.data} title={this.props.title} />
+        if (props.chart === "liquidityDistribution") {
+            return <SwapDistribution data={props.data} title={props.title} />
         }
-        if (this.props.chart === "lineGraph") {
-            return <LineGraph data={this.props.data} title={this.props.title} />
+        if (props.chart === "lineGraph") {
+            return <LineGraph data={props.data} title={props.title} />
         }
-        if (this.props.chart === "poolSizes") {
-            return <PoolSizesChart labels={this.props.labels} data={this.props.data} title={this.props.title} 
-            assetTotalValues={this.props.assetTotalValues} assetAPYs={this.props.assetAPYs}
-            totalPooledRune={this.props.totalPooledRune} runePrice={this.props.runePrice} />
+        if (props.chart === "poolSizes") {
+            return <PoolSizesChart labels={props.labels} data={props.data} title={props.title} 
+            assetTotalValues={props.assetTotalValues} assetAPYs={props.assetAPYs}
+            totalPooledRune={props.totalPooledRune} runePrice={props.runePrice} />
         }
-        if (this.props.chart === "runeDistribution") {
-            return <RuneDistribution max={this.props.max} data={this.props.data} total={this.props.total} />
+        if (props.chart === "runeDistribution") {
+            return <RuneDistribution max={props.max} data={props.data} total={props.total} />
         }
-        if (this.props.chart === "runePriceGraph") {
-            return <RunePriceCard runePriceOverInterval={this.props.runePriceOverInterval} 
-                deterministicRunePriceOverInterval={this.props.deterministicRunePriceOverInterval} />
+        if (props.chart === "runePriceGraph") {
+            return <RunePriceCard runePriceOverInterval={props.runePriceOverInterval} 
+                deterministicRunePriceOverInterval={props.deterministicRunePriceOverInterval} />
 
         }
         return <div></div>
     }
 
-    render() {
-        return (
-            <Card variant="outlined" style={{backgroundColor: "#3B3F43", borderColor: "#1BE6C8", display: "flex", flexDirection: "column"}}>
-                <CardHeader title={this.props.title} style={{color: "white", }} 
-                        titleTypographyProps={{variant:'subtitle2'}}></CardHeader>
-                {this.returnChart()}
-            </Card>
-        )
-    }
+    return (
+        <Card variant="outlined" className={classes.card}>
+            <CardHeader title={props.title} className="cardHeader"
+                    titleTypographyProps={{variant: "subtitle2"}}></CardHeader>
+            {returnChart()}
+        </Card>
+    )
 }

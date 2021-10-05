@@ -3,12 +3,12 @@ import OverviewCard from './overviewCard';
 import Grid from '@material-ui/core/Grid';
 
 
-export default class Overview extends React.Component {
+export default function Overview(props) {
 
-    returnCard = () => {
+    const returnCard = () => {
         const size = 2;
         let cardData = []
-        for (const [title, value] of Object.entries(this.props.data)) {
+        for (const [title, value] of Object.entries(props.data)) {
              cardData.push(
                 <Grid item xs={size} key={title}>
                     <OverviewCard title={title} value={value} />
@@ -18,12 +18,10 @@ export default class Overview extends React.Component {
         return cardData;
     }
 
-    render() {
-        return (
+    return (
 
-            <Grid container spacing={2} direction="row" justifyContent="center" key={999} style={{marginTop: "2%"}}>
-                    {this.returnCard()}
-            </Grid>
-        )
-    }
+        <Grid container spacing={2} direction="row" justifyContent="center" key={999} style={{marginTop: "2%"}}>
+                {returnCard()}
+        </Grid>
+    )
 }
