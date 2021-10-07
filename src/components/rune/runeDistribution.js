@@ -2,6 +2,7 @@ import React from 'react';
 import { Doughnut, Chart } from 'react-chartjs-2';
 import RuneDistributionTable from './runeDistributionTable';
 import "../../styles/sass/main.scss";
+import * as Constants from '../../constants';
 
 
 // sort distribution for table display. Highest values are displayed at top of the table
@@ -62,10 +63,20 @@ export default function RuneDistribution(props) {
               display: false
             },
             tooltip: {
-              enabled: false
+              enabled: props.windowSize.width < Constants.dropTableInfoThreshold ? true : false
           },
         }
       };
+
+    if (props.windowSize.width < Constants.dropTableInfoThreshold) {
+      return (
+      <div className="graphChartCard">
+        <div className="graph">
+          <Doughnut data={data} options={options} />
+        </div>
+      </div>
+      )
+    }
 
     return (
       <div className="graphChartCard">

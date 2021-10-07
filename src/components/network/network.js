@@ -11,7 +11,7 @@ import ChainStatus from './chainsStatus';
 import NodeTable from './nodeTable';
 import BondHistory from './bondHistory';
 import AssetColumn from '../assetColumn';
-
+import * as Constants from '../../constants';
 
 
 export default class Network extends React.Component {
@@ -132,24 +132,24 @@ export default class Network extends React.Component {
                     <Grid item xs={1}>
                             <AssetColumn/>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                     <ChartCard chart="nodeDistribution" data={this.state.activeBonds} title={"Active Node Bonds"} />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                     <ChartCard chart="nodeDistribution" data={this.state.standbyBonds} title={"Standby Node Bonds"}/>
                     </Grid>
                     <Grid item xs={1} />
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid container item xs={5} justifyContent="space-between">
+                    <Grid container item xs={Constants.halfGrid} justifyContent="space-between">
                         <Grid item xs={12}>
                             <BondMetricsCard activeMetrics={this.state.activeBondMetrics} standbyMetrics={this.state.standbyBondMetrics} />
                         </Grid> 
                     <BondHistory />
 
                     </Grid>
-                    <Grid item xs={5} >
+                    <Grid item xs={Constants.halfGrid} >
                         <IncentivePendulum imbalance={this.state.incentivePendulumImbalance} data={this.state.incentivePendulumData}
                             optimalLine={this.state.optimalLine} />
                         <ChainStatus chainsStatus={this.state.chainsStatus} />
@@ -157,10 +157,10 @@ export default class Network extends React.Component {
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                         <NodeTable title="Active Nodes" nodeData={this.state.activeNodesData} />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                         <NodeTable title="Standby Nodes" nodeData={this.state.standbyNodesData} />
                     </Grid>
                 </Grid>

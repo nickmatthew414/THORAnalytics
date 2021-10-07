@@ -8,6 +8,8 @@ import PoolsTable from './poolsTable';
 import { torToRune, toMillions, toMillionsString, toPercentString, compareDepth } from '../../library/library';
 import Grid from '@material-ui/core/Grid';
 import AssetColumn from '../assetColumn';
+import * as Constants from '../../constants';
+
 
 export default class LiquidityPools extends React.Component {
 
@@ -169,20 +171,20 @@ export default class LiquidityPools extends React.Component {
                     <Grid item xs={1}>
                         <AssetColumn/>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                     <ChartCard chart="lineGraph" data={this.state.totalValuePooled} title={"Total Value Pooled"} />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                     <ChartCard chart="liquidityDistribution" data={this.state.swapVolume} title={"Swap Volume"}/>
                     </Grid>
                     <Grid item xs={1}/>
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                         <ChartCard chart="lineGraph" data={this.state.priceHistory} title={"Asset Price"}/>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                     <ChartCard chart="liquidityDistribution" data={this.state.depthHistory} title={"Asset Depth History"} />
                     </Grid>
                 </Grid>
@@ -192,7 +194,7 @@ export default class LiquidityPools extends React.Component {
                         uniqueSwapperCount={this.state.uniqueSwapperCount} impermanentLossProtectionPaid={this.state.impermanentLossProtectionPaid} poolReward={this.state.poolReward} 
                         poolActivationCountdown={this.state.poolActivationCountdown} swapCount24h={this.state.swapCount24h} swapCount={this.state.swapCount} 
                         addLiquidityCount={this.state.addLiquidityCount} /> 
-                    <Grid item xs={5}>
+                    <Grid item xs={Constants.halfGrid}>
                         {this.state.assetNames && <ChartCard chart="poolSizes" labels={this.state.assetNames} 
                         data={this.state.assetDominances} title="Asset Dominance"
                         assetTotalValues={this.state.assetTotalValues} assetAPYs={this.state.assetAPYs}
@@ -202,13 +204,13 @@ export default class LiquidityPools extends React.Component {
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={10}>
+                    <Grid item xs={Constants.fullGrid}>
                     {this.state.assetNames && <PoolsTable tableData={this.state.activeAssetData} title={"Active Pools"} />}
                     </Grid>
                 </Grid>
 
                 <Grid container spacing={2} justifyContent="center" style={{marginTop: "2%"}}>
-                    <Grid item xs={10}>
+                    <Grid item xs={Constants.fullGrid}>
                     {this.state.assetNames && <PoolsTable tableData={this.state.pendingAssetData} title={"Standby Pools"} />}
                     </Grid>
                 </Grid>

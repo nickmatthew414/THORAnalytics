@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { toPercentString } from '../../library/library';
 import InfoIcon from '../infoIcon';
 import "../../styles/sass/main.scss";
+import * as Constants from "../../constants";
 
 
 const useStyles = makeStyles({
@@ -39,11 +40,10 @@ const useStyles = makeStyles({
 export default function RuneDistributionTable(props) {
 
     const classes = useStyles();
-    const tableInfoColumnThreshold = 1200;
 
     // return third row if window width is above 700px
     const returnTableCells = () => {
-        if (props.windowSize.width > tableInfoColumnThreshold) {
+        if (props.windowSize.width > Constants.tableInfoColumnThreshold) {
            return (
             <TableRow>
             <TableCell className={classes.tableCell} >Asset</TableCell>
@@ -61,7 +61,7 @@ export default function RuneDistributionTable(props) {
     }
 
     const returnInfoIcons = (data) => {
-        if (props.windowSize.width > tableInfoColumnThreshold) {
+        if (props.windowSize.width > Constants.tableInfoColumnThreshold) {
             return (<TableCell>
             <InfoIcon info={data.info} fontSize="12px" />
             </TableCell>)

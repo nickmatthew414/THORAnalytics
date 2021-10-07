@@ -1,9 +1,13 @@
 
+$dropTableInfoThreshold: 1030px;
+
 .graphChartCard {
     margin: 2%;
+    display: flex;
+    justify-content: center;
 }
 
-@media (min-width: 730px) {
+@media (min-width: $dropTableInfoThreshold) {
     .graphChartCard {
         display: flex;
         margin: 2%;

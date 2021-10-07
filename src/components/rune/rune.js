@@ -8,6 +8,7 @@ import AssetColumn from '../assetColumn';
 import RunePriceCalculator from './runePriceCalculator';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../styles/sass/main.scss';
+import * as Constants from '../../constants';
 
 
 const useStyles = makeStyles({
@@ -98,6 +99,43 @@ export default function LiquidityPools(props) {
         )
     }, []);
 
+    if (windowSize.width < Constants.singleColumnWidth) {
+        return (
+            <div>
+            <Header page="RUNE" />
+
+            <Grid container spacing={2} justifyContent="center" className={styles.grid}>
+                <Grid item xs={1} />
+                <Grid item xs={Constants.fullGrid}>
+                {state.nonUpgradedRune && (<ChartCard title="Rune Distribution" chart="runeDistribution" data={[state.totalActiveBondedRune,
+                state.totalStandbyBondedRune, state.totalPooledRune, state.unusedNativeRune,
+                state.nonUpgradedRune]} max={state.runeMaxSupply} total={state.runeTotalSupply} windowSize={windowSize}/>) }                    
+                </Grid>
+                <Grid item xs={1} />
+            </Grid>
+            
+            <Grid container spacing={2} justifyContent="center" className={styles.grid}>
+                <Grid item xs={1} />
+                <Grid item xs={Constants.fullGrid}>
+                    {state.runePriceOverInterval && (<ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
+                        deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval} >
+                        </ChartCard>)}
+                    <ChartCard className={styles.grid} />
+                </Grid>
+                <Grid item xs={1} />  
+            </Grid>
+
+            <Grid container spacing ={2} justifyContent="center" className={styles.grid}>
+                <Grid item xs={Constants.fullGrid}>
+                    <RunePriceCalculator title="Rune Price Calculator" />
+                </Grid>
+                <p style={{color: "white", fontSize: "25px"}}>{windowSize.width}</p>
+            </Grid>
+
+        </div> 
+        )
+    }
+
     return (
         <div>
             <Header page="RUNE" />
@@ -106,12 +144,12 @@ export default function LiquidityPools(props) {
                 <Grid item xs={1}>
                     <AssetColumn/>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={Constants.halfGrid}>
                 {state.nonUpgradedRune && (<ChartCard title="Rune Distribution" chart="runeDistribution" data={[state.totalActiveBondedRune,
                 state.totalStandbyBondedRune, state.totalPooledRune, state.unusedNativeRune,
                 state.nonUpgradedRune]} max={state.runeMaxSupply} total={state.runeTotalSupply} windowSize={windowSize}/>) }                    
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={Constants.halfGrid}>
                     {state.runePriceOverInterval && (<ChartCard title="Rune Price History" chart="runePriceGraph" runePriceOverInterval={state.runePriceOverInterval}
                         deterministicRunePriceOverInterval={state.deterministicRunePriceOverInterval} >
                         </ChartCard>)}
@@ -121,7 +159,7 @@ export default function LiquidityPools(props) {
             </Grid>
 
             <Grid container spacing ={2} justifyContent="center" className={styles.grid}>
-                <Grid item xs={10}>
+                <Grid item xs={Constants.fullGrid}>
                     <RunePriceCalculator title="Rune Price Calculator" />
                 </Grid>
                 <p style={{color: "white", fontSize: "25px"}}>{windowSize.width}</p>
